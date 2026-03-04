@@ -5,7 +5,7 @@ import { Moon, Sun, ChevronDown, Sparkles } from 'lucide-react'
 
 export type ThemeOverride = 'custom' | 'dark' | 'light'
 
-const STORAGE_KEY = 'manifold-theme-override'
+const STORAGE_KEY = 'axiom-theme-override'
 
 const OPTIONS: { value: ThemeOverride; label: string; icon: React.ReactNode; description: string }[] = [
   { value: 'custom', label: 'Themed', icon: <Sparkles size={14} />, description: 'Rich space themes' },

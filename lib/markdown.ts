@@ -21,8 +21,11 @@ let highlighterPromise: Promise<Highlighter> | null = null
 
 function getHighlighter(): Promise<Highlighter> {
   if (!highlighterPromise) {
+    const customThemes = getAllShikiThemes()
+    // Always include both github-dark and github-light for dual-theme code blocks
+    const allThemes = new Set([...customThemes, 'github-dark', 'github-light'])
     highlighterPromise = createHighlighter({
-      themes: getAllShikiThemes(),
+      themes: [...allThemes],
       langs: [
         'javascript', 'typescript', 'jsx', 'tsx', 'html', 'css', 'json',
         'markdown', 'bash', 'shell', 'python', 'csharp', 'c', 'cpp',
@@ -38,7 +41,11 @@ function getHighlighter(): Promise<Highlighter> {
  * Wraps output in a container with language label and copy button data attributes.
  */
 function rehypeShiki(themeName: ThemeName) {
-  const shikiTheme = getThemeConfig(themeName).shikiTheme
+  const themeConfig = getThemeConfig(themeName)
+  const spaceShikiTheme = themeConfig.shikiTheme
+  // Pick the opposite-mode fallback: if the space theme is dark, use github-light as alt, and vice versa
+  const darkTheme = themeConfig.isDark ? spaceShikiTheme : 'github-dark'
+  const lightTheme = themeConfig.isDark ? 'github-light' : spaceShikiTheme
 
   return () => async (tree: Root) => {
     const highlighter = await getHighlighter()
@@ -67,7 +74,11 @@ function rehypeShiki(themeName: ThemeName) {
       try {
         const highlighted = highlighter.codeToHtml(codeText, {
           lang: lang || 'text',
-          theme: shikiTheme,
+          themes: {
+            dark: darkTheme,
+            light: lightTheme,
+          },
+          defaultColor: false,
         })
 
         const displayLang = lang || 'text'

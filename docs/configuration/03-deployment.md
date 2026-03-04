@@ -1,32 +1,46 @@
 ---
 title: Deployment
 order: 3
-description: Building and deploying your Manifold site.
+description: Building and deploying your Axiom site.
 ---
 
-## Build Command
+## Build
 
 ```bash
 npm run build
 ```
 
-This generates the `out/` directory containing pre-rendered HTML, CSS/JS bundles, the Pagefind search index, and static assets.
+This runs `next build` followed by `npx pagefind --site out`. The result is a self-contained `out/` directory with:
+
+- Pre-rendered HTML for every page
+- CSS and JS bundles
+- The Pagefind search index
+- All static assets from `public/`
 
 ## Hosting
 
-Since Manifold outputs **pure static files**, it works with any hosting provider.
+Axiom outputs **pure static files**. Any hosting provider that can serve HTML works.
 
 ### GitHub Pages
 
+Add this workflow to `.github/workflows/deploy.yml`:
+
 ```yaml
-name: Deploy
+name: Deploy to Pages
 on:
   push:
     branches: [main]
 
+permissions:
+  pages: write
+  id-token: write
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,30 +51,34 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
-      - uses: actions/deploy-pages@v4
+      - id: deploy
+        uses: actions/deploy-pages@v4
 ```
 
 ### Netlify
 
-- **Build command:** `npm run build`
-- **Publish directory:** `out`
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Publish directory | `out` |
 
 ### Vercel
 
-- **Build command:** `npm run build`
-- **Output directory:** `out`
-- **Framework preset:** Next.js
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Output directory | `out` |
+| Framework preset | Next.js |
 
 ### Other Providers
 
-The `out/` folder works with AWS S3 + CloudFront, Cloudflare Pages, Azure Static Web Apps, or `npx surge out`.
+The `out/` folder works with **Cloudflare Pages**, **AWS S3 + CloudFront**, **Azure Static Web Apps**, or a simple `npx serve out` for local preview.
 
 ## Base Path
 
-If deploying to a subpath like `example.com/docs/`:
+If you deploy to a subpath like `example.com/docs/`, update `next.config.js`:
 
 ```javascript
-// next.config.js
 const nextConfig = {
   output: 'export',
   basePath: '/docs',
@@ -68,19 +86,17 @@ const nextConfig = {
 ```
 
 > [!WARNING]
-> After changing the base path, update any hardcoded paths in your config (like the favicon).
+> After changing the base path, double-check any hardcoded paths in your config (e.g. the favicon).
 
-## Search
+## Search After Deploy
 
-Search is powered by **Pagefind** and indexed during the build step. The index lives in `out/pagefind/` and runs entirely client-side.
+The Pagefind search index is generated during `npm run build` and lives in `out/pagefind/`. It runs entirely client-side — no server-side component needed.
 
 | Detail | Value |
 |---|---|
-| Trigger | `Ctrl+K` or navbar button |
-| Engine | Pagefind (static) |
-| Indexed | All visible text + space/theme metadata |
-| Server required | No |
+| Trigger | `Ctrl+K` or the navbar search hint |
+| Engine | Pagefind (static, client-side) |
+| Indexed content | All visible text + space and theme metadata |
 
 > [!TIP]
-> Search only works after a build. To test locally: `npm run build` then `npx serve out`.
-
+> To test search locally, run `npm run build` first, then preview with `npx serve out`. Search won't return results in dev mode unless you've built at least once.

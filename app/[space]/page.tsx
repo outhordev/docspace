@@ -33,6 +33,7 @@ export default async function SpacePage({ params }: SpacePageProps) {
     gradient: themeConfig.gradient,
     customCSS: themeConfig.customCSS,
     customHTML: themeConfig.customHTML,
+    isDark: themeConfig.isDark,
   }
 
   if (space.pages.length > 0) {

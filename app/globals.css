@@ -124,6 +124,19 @@ html {
   @apply !bg-transparent;
 }
 
+/* Shiki dual-theme: pick colors based on dark/light mode */
+[data-color-mode="dark"] .shiki,
+[data-color-mode="dark"] .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: transparent !important;
+}
+
+[data-color-mode="light"] .shiki,
+[data-color-mode="light"] .shiki span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
+}
+
 /* ─── Callout styles ─── */
 .callout {
   @apply rounded-xl my-6 overflow-hidden border;

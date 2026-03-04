@@ -1,7 +1,8 @@
 ---
 title: Configuration
-icon: cpu
+icon: wrench
 theme: deepspace
-description: Site settings, theming system, search, and deployment.
+order: 3
+description: Site settings, theming, and deployment options.
 ---
 

@@ -1,18 +1,11 @@
 import { getManifest } from '@/lib/docs-walker'
 import { getThemeConfig } from '@/lib/themes'
-import { BookOpen, FolderOpen, ArrowRight } from 'lucide-react'
+import { FolderOpen, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { ScrollText, Cpu, Palette, Newspaper } from 'lucide-react'
-import config from '@/manifold.config'
+import DynamicIcon from '@/components/layout/DynamicIcon'
+import config from '@/axiom.config'
 
-const ICON_MAP: Record<string, React.ReactNode> = {
-  'scroll-text': <ScrollText size={20} />,
-  'cpu': <Cpu size={20} />,
-  'palette': <Palette size={20} />,
-  'book-open': <BookOpen size={20} />,
-  'newspaper': <Newspaper size={20} />,
-}
 
 export default function HomePage() {
   const manifest = getManifest()
@@ -103,7 +96,7 @@ export default function HomePage() {
                   <div className="flex items-center gap-4">
                     {/* Icon */}
                     <div className="p-2.5 rounded-lg bg-white/5 text-base-content/60 group-hover:text-primary group-hover:bg-primary/15 transition-colors shrink-0">
-                      {ICON_MAP[space.icon] || <BookOpen size={20} />}
+                      <DynamicIcon name={space.icon || 'file-text'} size={20} />
                     </div>
 
                     {/* Content */}

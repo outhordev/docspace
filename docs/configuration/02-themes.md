@@ -1,50 +1,54 @@
 ---
 title: Themes
 order: 2
-description: Per-space theming system, built-in themes, and creating your own.
+description: Per-space theming, built-in themes, and creating custom ones.
 ---
 
-## Theme System
+## How Theming Works
 
-Each space can have its own visual identity — colors, fonts, code highlighting, and even custom CSS/HTML injections. Themes are JSON files in the `themes/` directory.
+Every space can have its own visual identity — colors, fonts, code highlighting style, and even injected custom CSS or HTML. Themes are JSON files in the `themes/` directory. Assign one to a space via its `_meta.md`.
 
-### Built-In Themes
+## Built-In Themes
 
-| Theme | Mode | Vibe |
+Axiom ships with two base themes and six custom themes:
+
+| Theme | Mode | Character |
 |---|---|---|
-| `dark` | Dark | Clean dark with purple accents |
-| `light` | Light | Clean light with indigo accents |
-| `arcane` | Dark | Mystical, parchment-inspired |
-| `blueprint` | Dark | Technical, grid-based |
-| `canvas` | Light | Warm, artistic |
-| `scroll` | Dark | Classic, scholarly |
-| `dispatch` | Dark | Urgent, newspaper-style |
-| `deepspace` | Dark | Cosmic with animated starfield |
+| `dark` | Dark | Clean dark, purple accent — the universal fallback |
+| `light` | Light | Clean white, indigo accent |
+| `arcane` | Dark | Amber and parchment, mystical feel |
+| `blueprint` | Dark | Navy and cyan, technical grid aesthetic |
+| `canvas` | Light | Warm cream and brown, artistic |
+| `scroll` | Light | Off-white, forest green, scholarly |
+| `dispatch` | Dark | Newsprint and orange, urgent vibe |
+| `deepspace` | Dark | Cosmic with an animated starfield background |
 
-## Theme File Structure
+## Theme File Format
+
+Create a JSON file in `themes/` — for example `themes/midnight.json`:
 
 ```json
 {
-  "displayName": "My Theme",
+  "displayName": "Midnight",
   "isDark": true,
   "bodyFont": "Inter, sans-serif",
   "headingFont": "Georgia, serif",
   "shikiTheme": "github-dark",
   "sidebarIndicator": "border",
-  "gradient": "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+  "gradient": "linear-gradient(135deg, #0a0a1a 0%, #1a1040 100%)",
   "background": "",
   "customCSS": "",
   "customHTML": "",
   "colors": {
-    "primary": "#6C63FF",
-    "primary-content": "#E0E0E0",
+    "primary": "#818CF8",
+    "primary-content": "#0a0a1a",
     "secondary": "#4A4458",
-    "accent": "#FF6584",
-    "neutral": "#2A2A3E",
-    "base-100": "#1a1a2e",
-    "base-200": "#222238",
-    "base-300": "#2A2A42",
-    "base-content": "#CCCCDD",
+    "accent": "#F472B6",
+    "neutral": "#1e1e30",
+    "base-100": "#0a0a1a",
+    "base-200": "#12122a",
+    "base-300": "#1a1a3a",
+    "base-content": "#d0d0e0",
     "info": "#3B82F6",
     "success": "#22C55E",
     "warning": "#EAB308",
@@ -53,54 +57,68 @@ Each space can have its own visual identity — colors, fonts, code highlighting
 }
 ```
 
+No registration step needed — Axiom discovers new theme files at build time.
+
 ### Field Reference
 
 | Field | Type | Description |
 |---|---|---|
-| `displayName` | `string` | Human-readable name |
-| `isDark` | `boolean` | Affects Shiki default |
-| `bodyFont` | `string` | CSS font-family for body |
-| `headingFont` | `string` | CSS font-family for headings |
-| `shikiTheme` | `string` | Shiki code highlighting theme |
-| `sidebarIndicator` | `string` | `'border'` or `'pill'` |
-| `gradient` | `string` | Decorative CSS gradient |
-| `background` | `string` | CSS background-image |
-| `customCSS` | `string` | Injected `<style>` when active |
-| `customHTML` | `string` | Injected HTML (decorative elements) |
+| `displayName` | `string` | Human-readable name shown in the UI |
+| `isDark` | `boolean` | Whether the theme is dark; affects the default Shiki code theme |
+| `bodyFont` | `string` | CSS `font-family` for body text |
+| `headingFont` | `string` | CSS `font-family` for headings |
+| `shikiTheme` | `string` | Shiki theme name for syntax highlighting |
+| `sidebarIndicator` | `string` | `"border"` (left bar) or `"pill"` (filled background) |
+| `gradient` | `string` | Decorative CSS gradient (used in hero areas) |
+| `background` | `string` | CSS `background-image` — patterns, textures, or URLs |
+| `customCSS` | `string` | Raw CSS injected in a `<style>` tag when the theme is active |
+| `customHTML` | `string` | Raw HTML injected into the page (e.g. decorative elements) |
 | `colors` | `object` | DaisyUI color tokens |
-
-## Creating a Custom Theme
-
-1. Create `themes/midnight.json`
-2. Fill in the fields (copy an existing theme as a starting point)
-3. Set `theme: midnight` in a space's `_meta.md`
-
-No registration needed — Manifold picks up new theme files at build time.
 
 ### Color Tokens
 
-The `colors` object uses **DaisyUI color tokens**:
+The `colors` object maps directly to **DaisyUI color tokens**:
 
 | Token | Usage |
 |---|---|
-| `primary` | Links, active states, buttons |
+| `primary` | Links, active states, accent buttons |
+| `primary-content` | Text on primary-colored backgrounds |
 | `base-100` | Main page background |
-| `base-200` | Sidebar, cards |
+| `base-200` | Sidebar, card backgrounds |
 | `base-300` | Borders, dividers |
 | `base-content` | Default text color |
-| `info` / `success` / `warning` / `error` | Callout colors |
-
-> [!WARNING]
-> Custom CSS/HTML is injected as raw strings. Use unique class prefixes (like `deepspace-`, `arcane-`) to avoid collisions with Manifold's core styles.
+| `info` / `success` / `warning` / `error` | Callout and status colors |
 
 ### Shiki Code Themes
 
-Popular options for `shikiTheme`:
+The `shikiTheme` field sets the primary code-highlighting palette. Axiom uses **dual-theme** highlighting, so code blocks always look correct in both dark and light modes — even when the reader overrides the theme via the settings modal.
 
-- `github-dark` / `github-light`
-- `one-dark-pro`
-- `dracula`
-- `nord`
+Some popular choices:
 
-See the [Shiki themes list](https://shiki.style/themes) for all options.
+| Dark themes | Light themes |
+|---|---|
+| `github-dark` | `github-light` |
+| `dracula` | `solarized-light` |
+| `one-dark-pro` | `everforest-light` |
+| `nord` | `min-light` |
+| `vesper` | `rose-pine-dawn` |
 
+See the full list at [shiki.style/themes](https://shiki.style/themes).
+
+## Assigning Themes
+
+In a space's `_meta.md`:
+
+```markdown
+---
+theme: midnight
+---
+```
+
+- `theme: midnight` → uses `themes/midnight.json`
+- `theme: dark` → uses the built-in dark theme
+- `theme: light` → uses the built-in light theme
+- *(omit)* → auto-assigned by folder-name keywords or round-robin
+
+> [!WARNING]
+> `customCSS` and `customHTML` are injected as raw strings. Use unique class prefixes (e.g. `midnight-`, `deepspace-`) to avoid collisions with Axiom's core styles.

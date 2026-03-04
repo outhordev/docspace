@@ -9,7 +9,7 @@ import SettingsModal, { useContentWidth } from './SettingsModal'
 import { useThemeOverride } from './ThemeToggle'
 import type {Page, Space} from '@/lib/docs-walker'
 import Link from 'next/link'
-import config from '@/manifold.config'
+import config from '@/axiom.config'
 
 interface ThemeStyles {
   headingFont?: string
@@ -18,6 +18,7 @@ interface ThemeStyles {
   gradient?: string
   customCSS?: string
   customHTML?: string
+  isDark?: boolean
 }
 
 interface ShellProps {
@@ -97,9 +98,18 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
     if (themeStyles?.background) rootStyle.backgroundImage = themeStyles.background
   }
 
+  // Determine if the resolved theme is dark or light for code block theming
+  const resolvedIsDark = (() => {
+    if (themeOverride === 'dark') return true
+    if (themeOverride === 'light') return false
+    // 'custom' mode — use the space theme's isDark
+    return themeStyles?.isDark ?? true
+  })()
+
   return (
     <div
       data-theme={resolvedTheme}
+      data-color-mode={resolvedIsDark ? 'dark' : 'light'}
       className="min-h-screen bg-base-100 text-base-content flex flex-col"
       style={rootStyle}
     >

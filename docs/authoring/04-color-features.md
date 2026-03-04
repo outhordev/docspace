@@ -6,7 +6,7 @@ description: Interactive palettes, hex swatches, and gradient previews.
 
 ## Overview
 
-Manifold has built-in support for documenting colors — ideal for art direction docs, style guides, and design systems. You can click any color swatch to copy its hex code, hsl, or rgb value to your clipboard.
+axiom has built-in support for documenting colors — ideal for art direction docs, style guides, and design systems. You can click any color swatch to copy its hex code, hsl, or rgb value to your clipboard.
 
 ## Inline Hex Swatches
 

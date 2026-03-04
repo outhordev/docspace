@@ -1,23 +1,30 @@
 ---
 title: Site Config
 order: 1
-description: The manifold.config.ts file and all available options.
+description: The axiom.config.ts file and all available options.
 ---
 
 ## Config File
 
-All site-wide settings live in `manifold.config.ts` at the project root.
+All site-wide settings live in `axiom.config.ts` at the project root:
 
 ```typescript
 const config = {
-  title: 'Manifold',
-  description: 'A file-driven documentation site.',
+  title: 'Axiom Docs',
+  description: 'A file-driven documentation site for projects.',
   favicon: '/favicon.svg',
-  footerText: 'Built with Manifold',
+  footerText: 'Axiom Docs',
   homeTheme: 'deepspace',
   homeGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
   singleSpaceRedirect: true,
-  contentMaxWidth: '65ch',
+  numericPrefixInPageSlugs: false,
+  numericPrefixInSpaceSlugs: false,
+  contentWidthOptions: [
+    { value: '55ch',  label: 'Narrow',     description: 'Compact, very readable' },
+    { value: '65ch',  label: 'Default',    description: 'Balanced for prose' },
+    { value: '80ch',  label: 'Wide',       description: 'Good for code-heavy pages' },
+    { value: '100ch', label: 'Extra Wide', description: 'Maximum reading area' },
+  ],
 }
 
 export default config
@@ -27,30 +34,63 @@ export default config
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `title` | `string` | `'Manifold'` | Site name — navbar, browser tab, hero |
+| `title` | `string` | `'Axiom Docs'` | Site name — navbar, browser tab, and landing hero |
 | `description` | `string` | `'A file-driven...'` | HTML meta description |
 | `favicon` | `string` | `'/favicon.svg'` | Path relative to `/public` |
-| `footerText` | `string` | `'Built with Manifold'` | Footer text on every page |
-| `homeTheme` | `string` | `'deepspace'` | Theme for the landing page |
-| `homeGradient` | `string` | CSS gradient | Landing page background; `''` to disable |
-| `singleSpaceRedirect` | `boolean` | `true` | Skip landing when only one space exists |
-| `contentMaxWidth` | `string` | `'65ch'` | Max width of the prose content area |
+| `footerText` | `string` | `'Axiom Docs'` | Text shown in the footer on every page |
+| `homeTheme` | `string` | `'deepspace'` | Theme applied to the landing page |
+| `homeGradient` | `string` | CSS gradient | Background gradient for the landing page; `''` to disable |
+| `singleSpaceRedirect` | `boolean` | `true` | Skip the landing page when only one space exists |
+| `numericPrefixInPageSlugs` | `boolean` | `false` | Keep `01-` prefixes in page URLs |
+| `numericPrefixInSpaceSlugs` | `boolean` | `false` | Keep `01-` prefixes in space URLs |
+| `contentWidthOptions` | `array` | 4 presets | Width choices shown in the reader settings modal |
 
-## Content Width
+## Content Width Options
 
-The `contentMaxWidth` controls how wide the text column is on doc pages. This is the **default** — readers can override it via the settings modal.
+The `contentWidthOptions` array defines which width presets appear in the settings modal (⚙ icon in the navbar). Each entry has three fields:
 
-| Value | Feel |
+| Field | Description |
 |---|---|
-| `55ch` | Narrow — very comfortable for prose |
-| `65ch` | Default — balanced |
-| `80ch` | Wide — good for code-heavy docs |
-| `100ch` | Extra wide — maximum reading area |
+| `value` | Any valid CSS width — `'65ch'`, `'720px'`, `'48rem'`, etc. |
+| `label` | Display name shown in the modal |
+| `description` | Short helper text below the label |
+
+The **first entry** in the array is the default for new visitors. You can add, remove, or reorder entries freely. For example, a code-heavy project might prefer wider defaults:
+
+```typescript
+contentWidthOptions: [
+  { value: '80ch',  label: 'Standard', description: 'Good for mixed content' },
+  { value: '100ch', label: 'Wide',     description: 'Comfortable for code' },
+  { value: '120ch', label: 'Full',     description: 'Maximum reading area' },
+],
+```
 
 ## Single-Space Mode
 
-When `singleSpaceRedirect` is `true` and `docs/` has one space, `/` redirects to that space. Add a second space and the landing page returns automatically.
+When `singleSpaceRedirect` is `true` and there is only one space in `docs/`, the root URL `/` redirects directly into that space. The landing page reappears automatically once you add a second space.
+
+## URL Slugs
+
+By default, Axiom strips numeric prefixes (like `01-`, `02-`) from URLs. This keeps URLs clean while still letting you use prefixes to control sort order in the file system.
+
+| File / Folder | Default slug | With prefix enabled |
+|---|---|---|
+| `01-overview.md` | `/space/overview` | `/space/01-overview` |
+| `02-getting-started/` | `/getting-started` | `/02-getting-started` |
+
+To keep prefixes in URLs, set either or both options to `true`:
+
+```typescript
+numericPrefixInPageSlugs: true,   // 01-overview.md → /space/01-overview
+numericPrefixInSpaceSlugs: true,  // 01-guides/ → /01-guides
+```
 
 > [!NOTE]
-> The landing page theme (`homeTheme`) is independent of space themes. You can use any theme from `themes/`, or `'dark'`/`'light'`.
+> Numeric prefixes are always used for ordering regardless of these settings. These options only affect how the URL slug is generated.
 
+## Landing Page Theme
+
+The `homeTheme` setting controls the visual style of the landing page independently of any space theme. Use any theme name from `themes/`, or the built-in `'dark'` / `'light'`.
+
+> [!TIP]
+> The `homeGradient` overlays on top of the theme. Set it to an empty string `''` if you want the theme's default `base-100` background instead.

@@ -6,41 +6,76 @@ description: How the file system maps to your documentation structure.
 
 ## Spaces
 
-Any **directory** inside `docs/` becomes a space. Each space has its own sidebar, theme, and URL namespace.
+Every **directory** inside `docs/` becomes a space. Each space has its own sidebar, theme, icon, and URL namespace.
 
-### The _meta.md File
+### The `_meta.md` File
 
-Each space can have a `_meta.md` with frontmatter:
+Put a `_meta.md` in any space folder to configure it:
 
 ```markdown
 ---
 title: World Building
 icon: scroll-text
 theme: arcane
+order: 2
 description: Lore, factions, and cosmology.
-colorFeatures: true
 ---
 ```
+
+All fields are optional. Without `_meta.md`, Axiom derives a title from the folder name and auto-assigns a theme.
 
 | Field | Type | Description |
 |---|---|---|
 | `title` | `string` | Display name (falls back to folder name) |
-| `icon` | `string` | Lucide icon name |
-| `theme` | `string` | Theme from `themes/` or `dark`/`light` |
-| `description` | `string` | Shown on the landing page |
-| `colorFeatures` | `boolean` | Enable interactive color swatches |
+| `icon` | `string` | Any Lucide icon name in kebab-case |
+| `theme` | `string` | A theme from `themes/` or `dark` / `light` |
+| `order` | `number` | Sort position on the landing page and space switcher |
+| `description` | `string` | Short blurb shown on the landing page card |
 
-### Available Icons
+### Ordering
 
-- `book-open` — general docs
-- `scroll-text` — lore / narrative
-- `cpu` — technical / engineering
-- `palette` — art and design
-- `newspaper` — devlogs / production
+Spaces are sorted by — in order of priority:
+
+1. **`order`** field in `_meta.md` frontmatter
+2. **Numeric folder-name prefix** (`01-getting-started`, `02-guides`, etc.)
+3. **Alphabetical title** (fallback)
+
+This works exactly the same way as page ordering. For example:
+
+```
+docs/
+  getting-started/    ← _meta.md has order: 1
+  authoring/          ← _meta.md has order: 2
+  configuration/      ← _meta.md has order: 3
+```
+
+### Icons
+
+The `icon` field accepts any name from the **Lucide** icon library — over 1,500 icons. Use the kebab-case form exactly as shown on their site.
+
+Browse the full set at [lucide.dev/icons](https://lucide.dev/icons).
+
+**Some handy picks:**
+
+| Name | Good for |
+|---|---|
+| `book-open` | General docs |
+| `scroll-text` | Lore, narrative |
+| `cpu` | Technical, engineering |
+| `palette` | Art, design |
+| `rocket` | Getting started |
+| `gamepad-2` | Game design |
+| `wrench` | Configuration |
+| `globe` | World, i18n |
+| `shield` | Security |
+| `git-branch` | Version control |
+
+> [!TIP]
+> If an icon name isn't recognised, Axiom falls back to a generic file icon. No error — just double-check the spelling at [lucide.dev/icons](https://lucide.dev/icons).
 
 ### Auto-Theme Assignment
 
-If you omit `theme`, Manifold assigns one based on folder name keywords:
+If you omit `theme`, Axiom picks one based on folder-name keywords:
 
 | Keywords | Theme |
 |---|---|
@@ -50,21 +85,21 @@ If you omit `theme`, Manifold assigns one based on folder name keywords:
 | gamedesign, design, mechanics | `scroll` |
 | devlog, production, pipeline | `dispatch` |
 
-If nothing matches, it round-robins through unused custom themes.
+If nothing matches, it round-robins through unused custom themes so every space gets something unique.
 
 ## Pages
 
-Any `.md` file inside a space (except `_`-prefixed files) becomes a page.
+Any `.md` file inside a space becomes a page. Files that start with `_` (like `_meta.md`) are excluded from navigation.
 
 ### Ordering
 
-Pages are sorted by:
+Pages are sorted by — in order of priority:
 
-1. `order` field in frontmatter (highest priority)
-2. Numeric filename prefix like `01-`, `02-`
-3. Alphabetical title (fallback)
+1. **`order`** field in frontmatter
+2. **Numeric filename prefix** (`01-`, `02-`, etc.)
+3. **Alphabetical title** (fallback)
 
-### Page Frontmatter
+### Frontmatter
 
 ```markdown
 ---
@@ -77,10 +112,9 @@ description: System architecture and tech stack overview.
 | Field | Type | Description |
 |---|---|---|
 | `title` | `string` | Display title (falls back to filename) |
-| `order` | `number` | Sort position in sidebar |
-| `description` | `string` | Shown in the page header |
-| `lastModified` | `string` | ISO date; falls back to file mtime |
+| `order` | `number` | Sort position in the sidebar |
+| `description` | `string` | Shown in the page header below the title |
+| `lastModified` | `string` | ISO date string; falls back to file mtime |
 
 > [!WARNING]
-> Files starting with `_` are excluded from navigation. The file `progress.md` at the docs root is also excluded by default.
-
+> Files whose names start with `_` are always excluded from navigation. The file `progress.md` at the docs root is also excluded by convention.

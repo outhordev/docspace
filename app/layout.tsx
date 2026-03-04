@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, IM_Fell_English, JetBrains_Mono, Lora, Bitter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
-import config from '@/manifold.config'
+import config from '@/axiom.config'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const imFellEnglish = IM_Fell_English({ weight: '400', subsets: ['latin'], variable: '--font-heading-arcane' })

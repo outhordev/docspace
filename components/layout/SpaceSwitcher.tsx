@@ -4,15 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronDown, Layers } from 'lucide-react'
 import type { Space } from '@/lib/docs-walker'
-import { ScrollText, Cpu, Palette, BookOpen, Newspaper } from 'lucide-react'
-
-const ICON_MAP: Record<string, React.ReactNode> = {
-  'scroll-text': <ScrollText size={14} />,
-  'cpu': <Cpu size={14} />,
-  'palette': <Palette size={14} />,
-  'book-open': <BookOpen size={14} />,
-  'newspaper': <Newspaper size={14} />,
-}
+import DynamicIcon from './DynamicIcon'
 
 interface SpaceSwitcherProps {
   spaces: Space[]
@@ -67,7 +59,7 @@ export default function SpaceSwitcher({ spaces, currentSpace, compact }: SpaceSw
                   onClick={() => setOpen(false)}
                 >
                   <span className={isActive ? 'text-primary' : 'text-base-content/40'}>
-                    {ICON_MAP[space.icon] || <BookOpen size={14} />}
+                    <DynamicIcon name={space.icon || 'file-text'} size={14} />
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate">{space.title}</div>

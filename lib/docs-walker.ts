@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { ThemeName, resolveTheme, getDefaultIcon, getThemeConfig } from './themes'
+import config from '@/axiom.config'
 
 export interface Page {
   slug: string
@@ -18,8 +19,8 @@ export interface Space {
   theme: ThemeName
   icon: string
   description: string
+  order: number
   pages: Page[]
-  colorFeatures: boolean
   sidebarIndicator: 'border' | 'pill'
 }
 
@@ -64,10 +65,18 @@ function parseMarkdownFile(filePath: string): { data: Record<string, unknown>; c
 }
 
 /**
+ * Strip a leading numeric prefix like "01-" from a string.
+ */
+function stripNumericPrefix(name: string): string {
+  return name.replace(/^\d+-/, '')
+}
+
+/**
  * Build a Page object from a markdown file.
  */
 function buildPage(filePath: string, fileName: string): Page {
-  const slug = fileName.replace(/\.md$/, '')
+  const rawSlug = fileName.replace(/\.md$/, '')
+  const slug = config.numericPrefixInPageSlugs ? rawSlug : stripNumericPrefix(rawSlug)
   const { data } = parseMarkdownFile(filePath)
 
   // Prefer frontmatter lastModified (set by CI), fall back to file mtime
@@ -150,27 +159,27 @@ export function buildManifest(): DocsManifest {
         return a.title.localeCompare(b.title)
       })
 
-      const colorFeatures =
-        theme === 'canvas' ||
-        (spaceMeta.colorFeatures as boolean) === true
-
       const resolvedThemeConfig = getThemeConfig(theme)
+      const spaceSlug = config.numericPrefixInSpaceSlugs ? entry.name : stripNumericPrefix(entry.name)
 
       spaces.push({
-        slug: entry.name,
+        slug: spaceSlug,
         title: (spaceMeta.title as string) || slugToTitle(entry.name),
         theme,
         icon: (spaceMeta.icon as string) || getDefaultIcon(theme),
         description: (spaceMeta.description as string) || '',
+        order: getOrder(spaceMeta.order as number | undefined, entry.name),
         pages,
-        colorFeatures,
         sidebarIndicator: resolvedThemeConfig.sidebarIndicator,
       })
     }
   }
 
-  // Sort spaces alphabetically
-  spaces.sort((a, b) => a.title.localeCompare(b.title))
+  // Sort spaces: by order, then alphabetically
+  spaces.sort((a, b) => {
+    if (a.order !== b.order) return a.order - b.order
+    return a.title.localeCompare(b.title)
+  })
 
   return { spaces, globalPages }
 }

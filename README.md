@@ -1,6 +1,6 @@
-# 📚 Manifold Wiki
+# 📚 axiom Wiki
 
-A zero-maintenance, file-driven documentation site for game projects. No CMS, no config — just folders, Markdown, and theme JSON files.
+A zero-maintenance, file-driven documentation site. No CMS, no config — just folders, Markdown, and theme JSON files.
 
 Built with **Next.js 16** (App Router, static export) + **DaisyUI v4** + **Tailwind CSS** + **React 19**.
 
@@ -55,8 +55,7 @@ Add a `_meta.md` in any space folder:
 title: World Building
 icon: scroll-text
 theme: arcane
-description: The lore and history of the game world.
-colorFeatures: true
+description: The lore and history of the project.
 ---
 ```
 
@@ -134,10 +133,10 @@ In `_meta.md`:
 
 ## 🎨 Color Features
 
-In spaces with `colorFeatures: true` (or using the `canvas` theme):
+Color features are always enabled across all spaces:
 
 - Hex codes like `#FF5733` get inline color dots
-- **Click any swatch** to open a popup with copy options: Hex, RGB, Unity Color
+- **Click any swatch** to open a popup with copy options: Hex, RGB, HSL
 - Use ` ```palette ` code blocks for visual swatch grids
 - Use ` ```gradient ` code blocks for gradient previews
 

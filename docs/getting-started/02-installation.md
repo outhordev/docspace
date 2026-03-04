@@ -1,70 +1,66 @@
 ---
 title: Installation
 order: 2
-description: Setting up Manifold and running your first build.
+description: Clone the repo, install dependencies, and see your first page.
 ---
 
 ## Prerequisites
 
-- **Node.js** 18+
-- **npm**, **yarn**, or **pnpm**
-- A text editor (VS Code recommended)
+You need **Node.js 18+** and a package manager (`npm`, `yarn`, or `pnpm`).
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-org/manifold.git my-docs
+git clone https://github.com/your-org/axiom-docs.git my-docs
 cd my-docs
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. You should see the landing page.
+Open [http://localhost:3000](http://localhost:3000). You should see the landing page with all available spaces.
 
-## Project Structure
+## Project Layout
 
 | Path | Purpose |
 |---|---|
-| `manifold.config.ts` | Site-wide settings (title, theme, behavior) |
-| `docs/` | Your documentation content |
+| `axiom.config.ts` | Site-wide settings — title, theme, footer, width options |
+| `docs/` | All of your documentation content |
 | `themes/` | Custom theme JSON files |
-| `app/` | Next.js pages (usually untouched) |
-| `lib/` | Core libraries (Markdown, themes, walker) |
 | `public/` | Static assets (favicon, images) |
+| `app/` | Next.js routing (you rarely touch this) |
+| `components/` | UI components (sidebar, search, settings) |
+| `lib/` | Core logic — Markdown pipeline, theme loader, docs walker |
 
-## Creating a Space
+## Your First Space
 
-Create a folder inside `docs/`:
+Create a folder and a `_meta.md`:
 
 ```bash
-mkdir docs/my-space
+mkdir docs/handbook
 ```
-
-Add a `_meta.md` to configure it:
 
 ```markdown
 ---
-title: My Space
+title: Handbook
 icon: book-open
 theme: blueprint
-description: A short description for the landing page.
+description: Internal team documentation.
 ---
 ```
 
-Add your first page:
+Then add a page:
 
 ```markdown
 ---
-title: Hello World
+title: Welcome
 order: 1
+description: Start here.
 ---
 
-## Welcome
+## Hello, World
 
-This is your first page.
+Your first Axiom page is live. Edit this file and the dev server will refresh.
 ```
-
-The dev server picks up changes automatically.
 
 ## Production Build
 
@@ -72,8 +68,7 @@ The dev server picks up changes automatically.
 npm run build
 ```
 
-This runs `next build` followed by `npx pagefind --site out`. The result is a static `out/` directory ready for deployment.
+This runs `next build` followed by `npx pagefind --site out`, producing a fully static `out/` directory with pre-rendered HTML, bundled assets, and a search index.
 
 > [!NOTE]
-> The build uses `output: 'export'` in Next.js config — everything is pre-rendered to HTML. No Node.js server required in production.
-
+> Axiom uses `output: 'export'` in the Next.js config. Everything is pre-rendered — no server process needed in production.

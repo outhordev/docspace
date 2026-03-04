@@ -1,48 +1,49 @@
 ---
-title: What is Manifold
+title: What Is Axiom
 order: 1
-description: A quick overview of what Manifold does and how it works.
+description: A quick overview of what Axiom does and why it exists.
 ---
 
-## Overview
+## The Idea
 
-Manifold is a **file-driven documentation site** built on Next.js. You write Markdown files in a `docs/` folder, and Manifold turns them into a themed, searchable, static site.
+Axiom is a **file-driven documentation site** built on Next.js. Drop Markdown files into a `docs/` folder, and Axiom turns them into a themed, searchable, statically-exported website — no database, no CMS, no server at runtime.
 
-It was designed for **game development teams** but works for any project that needs organized, multi-section documentation.
+It works for any project that needs well-organized, multi-section documentation — engineering teams, open-source projects, internal wikis, or personal knowledge bases.
 
-### Core Concepts
+## Core Concepts
 
-- **Spaces** — top-level folders inside `docs/` that become separate documentation sections, each with their own theme
-- **Pages** — Markdown files inside a space, sorted by numeric prefix
-- **Themes** — per-space visual identities (colors, fonts, code highlighting) defined as JSON
-- **Config** — a single `manifold.config.ts` file that controls site-wide behavior
+| Concept | What it means |
+|---|---|
+| **Space** | A top-level folder inside `docs/`. Each space becomes its own section with a unique theme, sidebar, and URL namespace. |
+| **Page** | A Markdown file inside a space. Sorted by numeric prefix or frontmatter `order`. |
+| **Theme** | A JSON file in `themes/` that controls colors, fonts, code highlighting, and more — assigned per-space. |
+| **Config** | A single `axiom.config.ts` at the project root that controls site-wide behavior. |
 
-### How It Works
+## Directory → Site
 
 ```
 docs/
-  getting-started/        ← Space (becomes /getting-started)
-    _meta.md              ← Space config (title, theme, icon)
-    01-intro.md           ← Page (order 1)
-    02-setup.md           ← Page (order 2)
+  getting-started/          ← Space → /getting-started
+    _meta.md                ← Title, icon, theme, description
+    01-intro.md             ← Page (order 1)
+    02-setup.md             ← Page (order 2)
   configuration/
     _meta.md
     01-settings.md
 ```
 
-Manifold walks this directory at build time, extracts frontmatter, and generates the full site — sidebar, search index, and all.
+At build time, Axiom walks this tree, reads every file's frontmatter, and generates the full site — sidebars, search index, and all.
 
-### What You Get
+## What You Get
 
-| Feature | Implementation |
-|---|---|
-| Multi-space navigation | Space switcher + sidebar per space |
-| Per-space theming | JSON theme files with DaisyUI tokens |
-| Full-text search | Pagefind (static, no server) |
-| Code blocks | Shiki highlighting + copy button |
-| Table of contents | Auto-generated from h2/h3 headings |
-| Static export | Deploy anywhere — no server needed |
+- **Multi-space navigation** — space switcher dropdown + sidebar per space
+- **Per-space theming** — JSON files that set DaisyUI color tokens, fonts, and code themes
+- **Full-text search** — Pagefind, fully static, runs in the browser
+- **Syntax highlighting** — Shiki with dual light/dark themes and a copy button
+- **Table of contents** — auto-generated from `h2` / `h3` headings
+- **Color tools** — inline hex swatches, palette grids, gradient previews
+- **Reader settings** — theme override (dark/light/space), content width presets
+- **Static export** — deploy to GitHub Pages, Netlify, Vercel, S3, or anywhere
 
 > [!TIP]
-> Manifold outputs a fully static site. The `out/` directory can be deployed to GitHub Pages, Netlify, Vercel, S3, or any web server.
-
+> The `out/` directory that `npm run build` produces is pure static HTML. No Node.js process is needed to serve it.

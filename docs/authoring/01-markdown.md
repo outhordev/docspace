@@ -1,64 +1,91 @@
 ---
 title: Markdown
 order: 1
-description: Supported Markdown syntax and frontmatter.
+description: Supported syntax, formatting, and frontmatter.
 ---
 
 ## Supported Syntax
 
-Manifold uses **GitHub Flavored Markdown** (GFM) via `remark-gfm`. All standard Markdown works, plus tables, strikethrough, and task lists.
+Axiom uses **GitHub Flavored Markdown** (GFM) via `remark-gfm`. All standard Markdown works out of the box, plus tables, strikethrough, task lists, and autolinks.
 
-### Headings
+## Headings
 
-Use `##` through `####`. The page title comes from frontmatter, so content should start at `##`.
+Use `##` through `####` for your content. The page title comes from frontmatter, so body content should start at `##`.
 
-Headings auto-generate **anchor links** (visible on hover) and populate the **Table of Contents** sidebar.
+Every heading gets an **anchor link** (visible on hover) and feeds the **Table of Contents** in the right sidebar.
 
-### Text Formatting
+```markdown
+## Section Title
+### Subsection
+#### Minor heading
+```
+
+## Text Formatting
+
+**Bold**, *italic*, ~~strikethrough~~, and inline `code` all work as expected:
 
 ```markdown
 **Bold text** and *italic text* and ~~strikethrough~~.
 
-Inline `code` looks like this.
+Inline `code` renders in a monospace font with a subtle background.
 ```
 
-### Links
+## Links
 
 ```markdown
 [External link](https://example.com)
-[Internal link](./02-code-blocks)
+[Link to another page](./02-code-blocks)
 ```
 
-### Lists
+Internal links use relative paths. They resolve to the correct URL at build time.
+
+## Lists
+
+Unordered and ordered lists, including nesting:
 
 ```markdown
-- Unordered item
+- First item
   - Nested item
+  - Another nested item
+- Second item
 
-1. Ordered item
-   1. Nested ordered
+1. Step one
+2. Step two
+   1. Sub-step
 ```
 
-### Tables
+## Tables
+
+Standard GFM tables:
 
 ```markdown
-| Feature | Status | Notes |
-|---|---|---|
-| Markdown | ✅ | Full GFM |
-| Search | ✅ | Pagefind |
-| Themes | ✅ | Per-space |
+| Feature | Status |
+|---|---|
+| Markdown | ✅ |
+| Search | ✅ |
+| Themes | ✅ |
 ```
 
-### Blockquotes
+| Feature | Status |
+|---|---|
+| Markdown | ✅ |
+| Search | ✅ |
+| Themes | ✅ |
+
+Tables render with zebra-striping and a rounded border that matches the current theme.
+
+## Blockquotes
 
 ```markdown
-> A regular blockquote. Styled with a left border
-> and subtle background.
+> A regular blockquote. Renders with a left border
+> and a subtle background.
 ```
 
-### Images
+> A regular blockquote. Renders with a left border and a subtle background.
 
-Place images in `public/` and reference them with a `/` prefix:
+## Images
+
+Place images in `public/` and reference them with an absolute path:
 
 ```markdown
 ![Screenshot](/images/my-screenshot.png)
@@ -66,18 +93,14 @@ Place images in `public/` and reference them with a `/` prefix:
 
 ## Frontmatter
 
-Every page starts with YAML frontmatter:
+Every page starts with YAML frontmatter inside `---` fences. It is stripped from the rendered output and used only for metadata:
 
 ```markdown
 ---
 title: My Page
 order: 1
-description: A brief summary.
+description: A brief summary shown in the page header.
 ---
 ```
 
-Frontmatter is stripped from the rendered output and used for metadata only.
-
-> [!NOTE]
-> If you omit `title`, Manifold generates one from the filename. If you omit `order`, it uses the numeric filename prefix (like `01-`), or defaults to 999.
-
+See [Spaces & Pages](/getting-started/03-spaces-and-pages) for the full list of supported frontmatter fields.

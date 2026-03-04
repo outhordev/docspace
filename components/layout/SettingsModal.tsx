@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Settings, Moon, Sun, Sparkles, Type, Monitor } from 'lucide-react'
 import { type ThemeOverride, useThemeOverride } from './ThemeToggle'
-import config from '@/manifold.config'
+import config from '@/axiom.config'
 
 const THEME_OPTIONS: { value: ThemeOverride; label: string; icon: React.ReactNode; description: string }[] = [
   { value: 'custom', label: 'Space Theme', icon: <Sparkles size={16} />, description: 'Rich per-space themes with custom colors and styles' },
@@ -11,17 +11,18 @@ const THEME_OPTIONS: { value: ThemeOverride; label: string; icon: React.ReactNod
   { value: 'light',  label: 'Light',       icon: <Sun size={16} />,      description: 'Universal light mode across all spaces' },
 ]
 
-const WIDTH_OPTIONS: { value: string; label: string; description: string }[] = [
-  { value: '55ch', label: 'Narrow',   description: 'Compact, very readable' },
-  { value: '65ch', label: 'Default',  description: 'Balanced for prose' },
-  { value: '80ch', label: 'Wide',     description: 'Good for code-heavy pages' },
+const WIDTH_OPTIONS = (config.contentWidthOptions || [
+  { value: '55ch',  label: 'Narrow',     description: 'Compact, very readable' },
+  { value: '65ch',  label: 'Default',    description: 'Balanced for prose' },
+  { value: '80ch',  label: 'Wide',       description: 'Good for code-heavy pages' },
   { value: '100ch', label: 'Extra Wide', description: 'Maximum reading area' },
-]
+]) as { value: string; label: string; description: string }[]
 
-const WIDTH_STORAGE_KEY = 'manifold-content-width'
+const WIDTH_STORAGE_KEY = 'axiom-content-width'
 
 export function useContentWidth(): [string, (v: string) => void] {
-  const [width, setWidth] = useState(config.contentMaxWidth || '65ch')
+  const defaultWidth = (config.contentWidthOptions?.[0]?.value) || '65ch'
+  const [width, setWidth] = useState(defaultWidth)
 
   useEffect(() => {
     const stored = localStorage.getItem(WIDTH_STORAGE_KEY)
@@ -121,7 +122,7 @@ export default function SettingsModal({ onThemeChange, onWidthChange }: Settings
               <span className="text-xs font-semibold uppercase tracking-wider text-base-content/50">Content Width</span>
             </div>
             <div className="space-y-1.5">
-              {WIDTH_OPTIONS.map(opt => (
+              {WIDTH_OPTIONS.map((opt, i) => (
                 <button
                   key={opt.value}
                   className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-all duration-150 text-left cursor-pointer ${
@@ -139,7 +140,7 @@ export default function SettingsModal({ onThemeChange, onWidthChange }: Settings
                   <div className="w-16 h-2 rounded-full bg-base-300 overflow-hidden ml-3 shrink-0">
                     <div
                       className={`h-full rounded-full transition-all ${contentWidth === opt.value ? 'bg-primary' : 'bg-base-content/20'}`}
-                      style={{ width: opt.value === '55ch' ? '40%' : opt.value === '65ch' ? '55%' : opt.value === '80ch' ? '75%' : '100%' }}
+                      style={{ width: `${Math.round(((i + 1) / WIDTH_OPTIONS.length) * 100)}%` }}
                     />
                   </div>
                 </button>

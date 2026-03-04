@@ -62,6 +62,7 @@ export default async function DocPageRoute({ params }: DocPageRouteProps) {
         gradient: themeConfig.gradient,
         customCSS: themeConfig.customCSS,
         customHTML: themeConfig.customHTML,
+        isDark: themeConfig.isDark,
       }}
     >
       <div data-pagefind-meta={`space:${space.title}`} hidden />

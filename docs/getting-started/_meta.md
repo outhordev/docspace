@@ -1,7 +1,8 @@
 ---
 title: Getting Started
-icon: book-open
-theme: blueprint
+icon: rocket
+theme: dispatch
+order: 1
 description: Installation, project structure, and your first documentation site.
 ---
 
