@@ -8,18 +8,18 @@ import TableOfContents from '@/components/layout/TableOfContents'
 import ColorFeatureHydrator from '@/components/docs/ColorFeatureHydrator'
 
 interface DocPageRouteProps {
-  params: Promise<{ space: string; slug: string }>
+  params: Promise<{ space: string; slug: string[] }>
 }
 
 export const dynamicParams = false
 
 export function generateStaticParams() {
   const manifest = getManifest()
-  const params: { space: string; slug: string }[] = []
+  const params: { space: string; slug: string[] }[] = []
 
   for (const space of manifest.spaces) {
     for (const page of space.pages) {
-      params.push({ space: space.slug, slug: page.slug })
+      params.push({ space: space.slug, slug: page.slug.split('/') })
     }
   }
 
@@ -27,7 +27,8 @@ export function generateStaticParams() {
 }
 
 export default async function DocPageRoute({ params }: DocPageRouteProps) {
-  const { space: spaceSlug, slug } = await params
+  const { space: spaceSlug, slug: slugSegments } = await params
+  const slug = slugSegments.join('/')
   const manifest = getManifest()
   const result = getPage(spaceSlug, slug)
 
@@ -79,3 +80,4 @@ export default async function DocPageRoute({ params }: DocPageRouteProps) {
     </Shell>
   )
 }
+

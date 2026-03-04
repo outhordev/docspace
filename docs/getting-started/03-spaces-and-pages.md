@@ -1,5 +1,5 @@
 ---
-title: Spaces & Pages
+title: Spaces and pages
 order: 3
 description: How the file system maps to your documentation structure.
 ---
@@ -54,21 +54,6 @@ docs/
 The `icon` field accepts any name from the **Lucide** icon library — over 1,500 icons. Use the kebab-case form exactly as shown on their site.
 
 Browse the full set at [lucide.dev/icons](https://lucide.dev/icons).
-
-**Some handy picks:**
-
-| Name | Good for |
-|---|---|
-| `book-open` | General docs |
-| `scroll-text` | Lore, narrative |
-| `cpu` | Technical, engineering |
-| `palette` | Art, design |
-| `rocket` | Getting started |
-| `gamepad-2` | Game design |
-| `wrench` | Configuration |
-| `globe` | World, i18n |
-| `shield` | Security |
-| `git-branch` | Version control |
 
 > [!TIP]
 > If an icon name isn't recognised, Axiom falls back to a generic file icon. No error — just double-check the spelling at [lucide.dev/icons](https://lucide.dev/icons).

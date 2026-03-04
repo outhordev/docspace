@@ -103,4 +103,4 @@ description: A brief summary shown in the page header.
 ---
 ```
 
-See [Spaces & Pages](/getting-started/03-spaces-and-pages) for the full list of supported frontmatter fields.
+See [Spaces & Pages](/getting-started/spaces-and-pages/spaces) for the full list of supported frontmatter fields.

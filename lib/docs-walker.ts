@@ -13,6 +13,20 @@ export interface Page {
   lastModified?: string
 }
 
+export interface PageGroup {
+  kind: 'group'
+  title: string
+  order: number
+  children: SidebarItem[]
+}
+
+export interface PageLink {
+  kind: 'page'
+  page: Page
+}
+
+export type SidebarItem = PageGroup | PageLink
+
 export interface Space {
   slug: string
   title: string
@@ -20,7 +34,8 @@ export interface Space {
   icon: string
   description: string
   order: number
-  pages: Page[]
+  pages: Page[]          // flat list of ALL pages (for prev/next, search, count)
+  sidebarTree: SidebarItem[]  // hierarchical tree for sidebar rendering
   sidebarIndicator: 'border' | 'pill'
 }
 
@@ -128,7 +143,6 @@ export function buildManifest(): DocsManifest {
       if (entry.name.startsWith('.')) continue
 
       const spaceDir = path.join(DOCS_DIR, entry.name)
-      const spaceFiles = fs.readdirSync(spaceDir, { withFileTypes: true })
 
       // Parse _meta.md if exists
       let spaceMeta: Record<string, unknown> = {}
@@ -143,21 +157,72 @@ export function buildManifest(): DocsManifest {
       const theme = resolveTheme(themeOverride, entry.name, usedThemes)
       usedThemes.add(theme)
 
-      // Build pages
-      const pages: Page[] = []
-      for (const file of spaceFiles) {
-        if (!file.isFile() || !file.name.endsWith('.md')) continue
-        if (file.name.startsWith('_')) continue
+      // Build sidebar tree (supports nested subfolders as collapsible groups)
+      function buildSidebarItems(dir: string, slugPrefix: string): SidebarItem[] {
+        const items: SidebarItem[] = []
+        const dirEntries = fs.readdirSync(dir, { withFileTypes: true })
 
-        const filePath = path.join(spaceDir, file.name)
-        pages.push(buildPage(filePath, file.name))
+        for (const file of dirEntries) {
+          if (file.name.startsWith('_') || file.name.startsWith('.')) continue
+
+          if (file.isFile() && file.name.endsWith('.md')) {
+            const filePath = path.join(dir, file.name)
+            const page = buildPage(filePath, file.name)
+            // Prepend the slug prefix for nested pages
+            if (slugPrefix) {
+              page.slug = `${slugPrefix}/${page.slug}`
+            }
+            items.push({ kind: 'page', page })
+          }
+
+          if (file.isDirectory()) {
+            const subDir = path.join(dir, file.name)
+            // Check for group _meta.md
+            let groupMeta: Record<string, unknown> = {}
+            const groupMetaPath = path.join(subDir, '_meta.md')
+            if (fs.existsSync(groupMetaPath)) {
+              const { data } = parseMarkdownFile(groupMetaPath)
+              groupMeta = data
+            }
+            const groupSlugPart = config.numericPrefixInPageSlugs ? file.name : stripNumericPrefix(file.name)
+            const children = buildSidebarItems(subDir, slugPrefix ? `${slugPrefix}/${groupSlugPart}` : groupSlugPart)
+            if (children.length > 0) {
+              items.push({
+                kind: 'group',
+                title: (groupMeta.title as string) || slugToTitle(file.name),
+                order: getOrder(groupMeta.order as number | undefined, file.name),
+                children,
+              })
+            }
+          }
+        }
+
+        // Sort: by order, then alphabetically
+        items.sort((a, b) => {
+          const orderA = a.kind === 'page' ? a.page.order : a.order
+          const orderB = b.kind === 'page' ? b.page.order : b.order
+          const titleA = a.kind === 'page' ? a.page.title : a.title
+          const titleB = b.kind === 'page' ? b.page.title : b.title
+          if (orderA !== orderB) return orderA - orderB
+          return titleA.localeCompare(titleB)
+        })
+
+        return items
       }
 
-      // Sort pages: by order, then alphabetically
-      pages.sort((a, b) => {
-        if (a.order !== b.order) return a.order - b.order
-        return a.title.localeCompare(b.title)
-      })
+      const sidebarTree = buildSidebarItems(spaceDir, '')
+
+      // Build the flat pages list in sidebar-tree order (depth-first)
+      // so prev/next navigation follows the same order the reader sees
+      function flattenTree(items: SidebarItem[]): Page[] {
+        const result: Page[] = []
+        for (const item of items) {
+          if (item.kind === 'page') result.push(item.page)
+          else result.push(...flattenTree(item.children))
+        }
+        return result
+      }
+      const orderedPages = flattenTree(sidebarTree)
 
       const resolvedThemeConfig = getThemeConfig(theme)
       const spaceSlug = config.numericPrefixInSpaceSlugs ? entry.name : stripNumericPrefix(entry.name)
@@ -169,7 +234,8 @@ export function buildManifest(): DocsManifest {
         icon: (spaceMeta.icon as string) || getDefaultIcon(theme),
         description: (spaceMeta.description as string) || '',
         order: getOrder(spaceMeta.order as number | undefined, entry.name),
-        pages,
+        pages: orderedPages,
+        sidebarTree,
         sidebarIndicator: resolvedThemeConfig.sidebarIndicator,
       })
     }
