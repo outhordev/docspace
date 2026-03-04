@@ -1,0 +1,175 @@
+name: Push Docs to Wiki
+
+# This workflow is designed to be used by OTHER repositories.
+# It scans for a /docs folder on each commit and pushes the contents
+# to the wiki app repository, triggering a rebuild.
+#
+# HOW TO USE IN ANOTHER REPO:
+# 1. Copy this file to .github/workflows/push-docs-to-wiki.yml in your project repo
+# 2. Set up a GitHub secret called WIKI_DEPLOY_TOKEN with a PAT that has
+#    write access to the wiki app repository
+# 3. Update WIKI_REPO below to point to your wiki app repo
+# 4. Update SPACE_NAME to match the folder name you want in the wiki
+#
+# On every push to main, if a docs/ folder exists, its contents will be
+# synced to docs/<SPACE_NAME>/ in the wiki repo.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+env:
+  # ── CONFIGURE THESE ──────────────────────────────────────────────
+  WIKI_REPO: 'your-org/your-wiki-repo'   # GitHub repo for the wiki app
+  SPACE_NAME: ''                           # Leave empty to auto-detect from repo name
+  # ─────────────────────────────────────────────────────────────────
+
+jobs:
+  push-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Check for docs folder
+        id: check
+        run: |
+          if [ -d "docs" ]; then
+            echo "has_docs=true" >> $GITHUB_OUTPUT
+            echo "✅ docs/ folder found"
+          else
+            echo "has_docs=false" >> $GITHUB_OUTPUT
+            echo "⏭️  No docs/ folder — skipping"
+          fi
+
+      - name: Determine space name
+        if: steps.check.outputs.has_docs == 'true'
+        id: space
+        run: |
+          if [ -n "${{ env.SPACE_NAME }}" ]; then
+            SPACE="${{ env.SPACE_NAME }}"
+          else
+            # Auto-detect from repository name (lowercase, hyphens ok)
+            SPACE=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          fi
+          echo "name=$SPACE" >> $GITHUB_OUTPUT
+          echo "📁 Space name: $SPACE"
+
+      - name: Checkout wiki repo
+        if: steps.check.outputs.has_docs == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.WIKI_REPO }}
+          token: ${{ secrets.WIKI_DEPLOY_TOKEN }}
+          path: wiki-repo
+
+      - name: Sync docs to wiki
+        if: steps.check.outputs.has_docs == 'true'
+        run: |
+          SPACE="${{ steps.space.outputs.name }}"
+          TARGET="wiki-repo/docs/$SPACE"
+
+          # Clean existing space content (if any)
+          rm -rf "$TARGET"
+          mkdir -p "$TARGET"
+
+          # Copy docs contents into the space folder
+          # If source docs/ has subfolders (spaces), copy them as-is
+          # If source docs/ has only .md files, put them in the space folder
+          HAS_SUBDIRS=$(find docs/ -mindepth 1 -maxdepth 1 -type d | head -1)
+
+          if [ -n "$HAS_SUBDIRS" ]; then
+            # Source has space folders — copy each as a top-level space
+            echo "📂 Source has subdirectories — copying as separate spaces"
+            rm -rf "$TARGET"
+            for dir in docs/*/; do
+              dirname=$(basename "$dir")
+              # Skip hidden dirs
+              [[ "$dirname" == .* ]] && continue
+              rm -rf "wiki-repo/docs/$dirname"
+              cp -r "$dir" "wiki-repo/docs/$dirname"
+              echo "  → Copied $dirname"
+            done
+            # Also copy any root-level .md files
+            for f in docs/*.md; do
+              [ -f "$f" ] || continue
+              cp "$f" "wiki-repo/docs/"
+              echo "  → Copied $(basename $f)"
+            done
+          else
+            # Source has only files — put them in a single space
+            echo "📄 Source has only files — copying into space: $SPACE"
+            cp -r docs/* "$TARGET/"
+          fi
+
+      - name: Stamp last-modified dates from git history
+        if: steps.check.outputs.has_docs == 'true'
+        run: |
+          echo "📅 Stamping last-modified dates from git log..."
+          # For each .md file in docs/, get the last commit date and
+          # inject/update a `lastModified` frontmatter field
+          find docs/ -name "*.md" | while read -r filepath; do
+            LAST_DATE=$(git log -1 --format="%aI" -- "$filepath" 2>/dev/null || echo "")
+            if [ -z "$LAST_DATE" ]; then
+              continue
+            fi
+            
+            # Determine the target path in wiki-repo
+            REL_PATH="${filepath#docs/}"
+            SPACE="${{ steps.space.outputs.name }}"
+            HAS_SUBDIRS=$(find docs/ -mindepth 1 -maxdepth 1 -type d | head -1)
+            
+            if [ -n "$HAS_SUBDIRS" ]; then
+              WIKI_FILE="wiki-repo/docs/$REL_PATH"
+            else
+              WIKI_FILE="wiki-repo/docs/$SPACE/$REL_PATH"
+            fi
+            
+            if [ ! -f "$WIKI_FILE" ]; then
+              continue
+            fi
+            
+            # Check if file has frontmatter
+            if head -1 "$WIKI_FILE" | grep -q "^---"; then
+              # Check if lastModified already exists in frontmatter
+              if grep -q "^lastModified:" "$WIKI_FILE"; then
+                # Update existing
+                sed -i "s|^lastModified:.*|lastModified: '$LAST_DATE'|" "$WIKI_FILE"
+              else
+                # Insert after first ---
+                sed -i "0,/^---/!{0,/^---/s|^---|lastModified: '$LAST_DATE'\n---|}" "$WIKI_FILE"
+                # Simpler: insert on line 2
+                sed -i "2i lastModified: '$LAST_DATE'" "$WIKI_FILE"
+              fi
+            else
+              # No frontmatter — add it
+              sed -i "1i ---\nlastModified: '$LAST_DATE'\n---\n" "$WIKI_FILE"
+            fi
+            
+            echo "  → $REL_PATH: $LAST_DATE"
+          done
+
+      - name: Commit and push to wiki
+        if: steps.check.outputs.has_docs == 'true'
+        run: |
+          cd wiki-repo
+          git config user.name "docs-sync[bot]"
+          git config user.email "docs-sync[bot]@users.noreply.github.com"
+          git add docs/
+          
+          # Check if there are changes
+          if git diff --staged --quiet; then
+            echo "⏭️  No changes to commit"
+          else
+            REPO_NAME="${{ github.event.repository.name }}"
+            SHORT_SHA="${{ github.sha }}"
+            SHORT_SHA="${SHORT_SHA:0:7}"
+            git commit -m "docs: sync from ${REPO_NAME}@${SHORT_SHA}" \
+                        -m "Source: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+            git push
+            echo "✅ Docs pushed to wiki repo"
+          fi
+

@@ -1,0 +1,28 @@
+{
+  "displayName": "Blueprint",
+  "isDark": true,
+  "bodyFont": "Inter, sans-serif",
+  "headingFont": "'JetBrains Mono', monospace",
+  "shikiTheme": "dracula",
+  "sidebarIndicator": "border",
+  "gradient": "linear-gradient(135deg, #0A0F1E 0%, #0F1A30 30%, #0A1628 60%, #0A0F1E 100%)",
+  "background": "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%2322D3EE' stroke-opacity='0.05' fill='none'%3E%3Cpath d='M0 20h40M20 0v40'/%3E%3C/g%3E%3C/svg%3E\")",
+  "colors": {
+    "primary": "#22D3EE",
+    "primary-content": "#0A0F1E",
+    "secondary": "#6366F1",
+    "secondary-content": "#CBD5E1",
+    "accent": "#818CF8",
+    "accent-content": "#0A0F1E",
+    "neutral": "#141E33",
+    "neutral-content": "#CBD5E1",
+    "base-100": "#0A0F1E",
+    "base-200": "#0F1729",
+    "base-300": "#141E33",
+    "base-content": "#CBD5E1",
+    "info": "#22D3EE",
+    "success": "#34D399",
+    "warning": "#FBBF24",
+    "error": "#F87171"
+  }
+}

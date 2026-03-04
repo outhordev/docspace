@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Smooth scrolling ─── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* ─── Apply heading font from theme CSS var ─── */
+.doc-content h1, .doc-content h2, .doc-content h3, .doc-content h4 {
+  font-family: var(--heading-font, inherit);
+}
+
+/* ─── Prose / doc-content typography ─── */
+.doc-content {
+  @apply max-w-none leading-relaxed;
+}
+
+.doc-content h1 {
+  @apply text-3xl font-bold mb-6 mt-10 pb-3 border-b border-base-300;
+}
+
+.doc-content h2 {
+  @apply text-2xl font-bold mb-4 mt-10 pb-2 border-b border-base-300;
+}
+
+.doc-content h3 {
+  @apply text-xl font-semibold mb-3 mt-8;
+}
+
+.doc-content h4 {
+  @apply text-lg font-semibold mb-2 mt-6;
+}
+
+.doc-content p {
+  @apply mb-4 leading-7;
+}
+
+.doc-content > ul {
+  @apply list-disc pl-6 mb-6 space-y-1.5;
+}
+
+.doc-content > ol {
+  @apply list-decimal pl-6 mb-6 space-y-1.5;
+}
+
+.doc-content li > ul,
+.doc-content li > ol {
+  @apply mt-1.5 mb-0;
+}
+
+.doc-content li {
+  @apply leading-7;
+}
+
+.doc-content blockquote {
+  @apply border-l-4 border-primary/40 pl-4 py-2 my-6 bg-base-200/50 rounded-r-lg italic;
+}
+
+.doc-content pre {
+  @apply rounded-lg mb-0 overflow-x-auto text-sm leading-relaxed;
+}
+
+.doc-content code:not(pre code) {
+  @apply bg-base-200 px-1.5 py-0.5 rounded text-[0.875em] font-mono text-primary/90 border border-base-300;
+}
+
+.doc-content hr {
+  @apply my-10 border-base-300;
+}
+
+.doc-content a:not(.heading-anchor) {
+  @apply text-primary hover:text-primary/80 underline underline-offset-2 decoration-primary/30 hover:decoration-primary/60 transition-colors;
+}
+
+.doc-content img {
+  @apply rounded-lg my-6 max-w-full shadow-sm;
+}
+
+.doc-content strong {
+  @apply font-semibold text-base-content;
+}
+
+/* ─── Heading anchor links ─── */
+.doc-content .heading-anchor {
+  @apply opacity-0 ml-2 text-primary/50 no-underline transition-all duration-200 hover:text-primary;
+}
+
+.doc-content h1:hover .heading-anchor,
+.doc-content h2:hover .heading-anchor,
+.doc-content h3:hover .heading-anchor,
+.doc-content h4:hover .heading-anchor {
+  @apply opacity-100;
+}
+
+/* ─── Code blocks with header ─── */
+.code-block-wrapper {
+  @apply rounded-xl overflow-hidden border border-base-300 bg-base-200/30;
+}
+
+.code-block-header {
+  @apply flex items-center justify-between px-4 py-2 bg-base-300/50 border-b border-base-300 text-xs;
+}
+
+.code-lang-label {
+  @apply font-mono text-base-content/50 uppercase tracking-wider font-medium;
+}
+
+.code-copy-btn {
+  @apply px-2.5 py-1 rounded-md text-base-content/50 hover:text-base-content hover:bg-base-300 transition-all duration-150 font-medium cursor-pointer select-none;
+}
+
+.code-copy-btn.copied {
+  @apply text-success;
+}
+
+.code-block-wrapper pre {
+  @apply !rounded-none !border-0 !my-0 p-4;
+}
+
+.code-block-wrapper .shiki {
+  @apply !bg-transparent;
+}
+
+/* ─── Callout styles ─── */
+.callout {
+  @apply rounded-xl my-6 overflow-hidden border;
+}
+
+.callout-header {
+  @apply flex items-center gap-2 px-4 py-2.5 text-sm font-semibold;
+}
+
+.callout-icon {
+  @apply text-base;
+}
+
+.callout-label {
+  @apply uppercase tracking-wider text-xs;
+}
+
+.callout-content {
+  @apply px-4 pb-4 pt-1 text-base-content;
+}
+
+.callout-content p:last-child {
+  @apply mb-0;
+}
+
+.callout-note { @apply bg-info/5 border-info/20; }
+.callout-note .callout-header { @apply bg-info/10 text-info; }
+
+.callout-tip { @apply bg-success/5 border-success/20; }
+.callout-tip .callout-header { @apply bg-success/10 text-success; }
+
+.callout-warning { @apply bg-warning/5 border-warning/20; }
+.callout-warning .callout-header { @apply bg-warning/10 text-warning; }
+
+.callout-danger { @apply bg-error/5 border-error/20; }
+.callout-danger .callout-header { @apply bg-error/10 text-error; }
+
+/* ─── Hex swatch inline ─── */
+.hex-swatch-inline {
+  @apply inline-flex items-center gap-1;
+}
+
+.hex-swatch-dot {
+  @apply inline-block w-3.5 h-3.5 rounded-full border border-base-content/20 align-middle cursor-pointer shadow-sm;
+}
+
+.hex-swatch-code {
+  @apply font-mono text-sm cursor-pointer hover:text-primary transition-colors;
+}
+
+/* ─── Palette block — click to open context menu, no hover scale ─── */
+.palette-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 my-6;
+}
+
+.palette-swatch {
+  @apply rounded-xl overflow-hidden border border-base-300 transition-all cursor-pointer hover:shadow-md;
+}
+
+.palette-swatch-color {
+  @apply h-20 w-full;
+}
+
+.palette-swatch-info {
+  @apply p-2.5 bg-base-200;
+}
+
+/* ─── Color copy popup menu ─── */
+.color-copy-popup {
+  @apply fixed z-[200] bg-base-100 border border-base-300 rounded-xl shadow-xl overflow-hidden min-w-[180px];
+  animation: popup-enter 0.15s ease;
+}
+
+.color-copy-popup-header {
+  @apply flex items-center gap-2 px-3 py-2 border-b border-base-300 bg-base-200/50;
+}
+
+.color-copy-popup-swatch {
+  @apply w-5 h-5 rounded-md border border-base-content/20;
+}
+
+.color-copy-popup-item {
+  @apply flex items-center justify-between px-3 py-2 text-sm hover:bg-base-200 cursor-pointer transition-colors;
+}
+
+.color-copy-popup-item .label {
+  @apply text-base-content/50 text-xs uppercase tracking-wider;
+}
+
+.color-copy-popup-item .value {
+  @apply font-mono text-xs text-base-content;
+}
+
+@keyframes popup-enter {
+  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ─── Gradient block ─── */
+.gradient-preview {
+  @apply rounded-xl h-20 my-6 flex items-end justify-between px-5 pb-3 text-sm font-mono shadow-inner;
+}
+
+
+/* ─── Search highlight ─── */
+mark {
+  @apply bg-primary/20 text-base-content rounded px-0.5;
+}
+
+/* ─── Scrollbar styling ─── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-base-content/10 rounded-full hover:bg-base-content/20;
+}
+
+/* ─── Back to top button ─── */
+.back-to-top {
+  @apply fixed bottom-6 right-6 z-40 btn btn-circle btn-sm btn-primary shadow-lg opacity-0 translate-y-4 transition-all duration-300 pointer-events-none;
+}
+.back-to-top.visible {
+  @apply opacity-100 translate-y-0 pointer-events-auto;
+}
+
+/* ─── Page transition ─── */
+.page-enter {
+  animation: page-enter 0.3s ease;
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Reading progress bar ─── */
+.reading-progress {
+  @apply fixed top-0 left-0 h-[2px] bg-primary z-[100] transition-none;
+}
