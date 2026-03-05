@@ -2,7 +2,7 @@ name: Build & Deploy Wiki
 
 on:
   push:
-    branches: [main]
+    branches: [stable]
   workflow_dispatch:
 
 permissions:
@@ -51,4 +51,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
