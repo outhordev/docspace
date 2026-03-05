@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { Space, SidebarItem } from '@/lib/docs-walker'
 import { FileText, ChevronRight } from 'lucide-react'
+import DynamicIcon from './DynamicIcon'
 
 interface SidebarProps {
   space: Space
@@ -44,7 +45,11 @@ function SidebarGroup({
           }`}
           onClick={onNavigate}
         >
-          <FileText size={14} className={`shrink-0 ${isActive ? 'text-primary' : 'text-base-content/30'}`} />
+          {page.icon ? (
+            <DynamicIcon name={page.icon} size={14} className={`shrink-0 ${isActive ? 'text-primary' : 'text-base-content/30'}`} />
+          ) : (
+            <FileText size={14} className={`shrink-0 ${isActive ? 'text-primary' : 'text-base-content/30'}`} />
+          )}
           <span>{page.title}</span>
         </Link>
       </li>

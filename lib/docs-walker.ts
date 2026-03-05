@@ -9,6 +9,7 @@ export interface Page {
   filePath: string
   title: string
   description?: string
+  icon?: string
   order: number
   lastModified?: string
 }
@@ -125,6 +126,7 @@ function buildPage(filePath: string, fileName: string): Page {
     filePath,
     title: (data.title as string) || slugToTitle(slug),
     description: data.description as string | undefined,
+    icon: data.icon as string | undefined,
     order: getOrder(data.order as number | undefined, fileName),
     lastModified,
   }

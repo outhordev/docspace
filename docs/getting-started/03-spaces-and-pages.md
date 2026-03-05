@@ -90,6 +90,7 @@ Pages are sorted by — in order of priority:
 ---
 title: Architecture
 order: 1
+icon: cpu
 description: System architecture and tech stack overview.
 ---
 ```
@@ -98,6 +99,7 @@ description: System architecture and tech stack overview.
 |---|---|---|
 | `title` | `string` | Display title (falls back to filename) |
 | `order` | `number` | Sort position in the sidebar |
+| `icon` | `string` | Any Lucide icon name in kebab-case (falls back to `file-text`) |
 | `description` | `string` | Shown in the page header below the title |
 | `lastModified` | `string` | ISO date string; falls back to file mtime |
 

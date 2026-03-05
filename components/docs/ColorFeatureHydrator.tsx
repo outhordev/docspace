@@ -88,7 +88,8 @@ export default function ColorFeatureHydrator() {
       popup.style.top = `${anchorRect.top - 160}px`
     }
 
-    document.body.appendChild(popup)
+    const portalTarget = document.getElementById('theme-portal') || document.body
+    portalTarget.appendChild(popup)
     popupRef.current = popup
 
     // Handle clicks on items

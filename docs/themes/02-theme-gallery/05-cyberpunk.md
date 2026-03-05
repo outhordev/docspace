@@ -1,6 +1,7 @@
 ---
 title: Cyberpunk
 theme: cyberpunk
+icon: moon
 order: 5
 description: A dark theme with neon accents, scrolling scanlines, and glowing orbs.
 ---
@@ -15,13 +16,13 @@ For content that's meant to feel edgy, futuristic, or just plain fun: game desig
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#00FFC8` | Neon mint — links, active states |
-| `secondary` | `#FF0080` | Hot pink — supporting accents |
-| `accent` | `#7B61FF` | Electric purple — highlights |
-| `base-100` | `#0A0A12` | Near-black — page background |
-| `base-content` | `#D0E8E0` | Soft green-white — body text |
+```palette
+Primary (Neon Mint)     #00FFC8
+Secondary (Hot Pink)    #FF0080
+Accent (Purple)         #7B61FF
+Base 100 (Background)   #0A0A12
+Base Content (Text)     #D0E8E0
+```
 
 ### Code Example
 
@@ -49,7 +50,7 @@ class NeuralLink {
 
 > *The neon signs flicker in the rain-slicked alleyways of Neo-Shibuya. Augmented eyes scan the crowd, parsing facial recognition data in real-time. In this city, information is currency — and everyone's running low on credit.*
 
-The background is built from three layers: colored glow orbs that drift lazily across the viewport, and faint CRT-style scanlines that scroll downward at an almost imperceptible speed. No grid, no noise — just atmosphere.
+The background is built from separate layers: colored glow orbs that drift lazily across the viewport in their own container, and faint CRT-style scanlines layered independently on top. The scanlines use `mix-blend-mode: screen` so they interact with the glows without merging into a grid.
 
 > [!WARNING]
 > Cyberpunk's animated background is more performance-intensive than simpler themes. It's all CSS (no JS), but the multiple animations may be noticeable on very low-end devices.

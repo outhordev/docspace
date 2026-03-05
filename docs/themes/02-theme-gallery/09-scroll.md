@@ -1,6 +1,7 @@
 ---
 title: Scroll
 theme: scroll
+icon: sun
 order: 9
 description: A light scholarly theme with forest green accents and clean typography.
 ---
@@ -15,12 +16,12 @@ Excellent for game design documents, rule books, reference manuals, specificatio
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#166534` | Forest green — links, active states |
-| `accent` | `#15803D` | Green — highlights |
-| `base-100` | `#FAFAF5` | Off-white — page background |
-| `base-content` | `#1F2937` | Dark grey — body text |
+```palette
+Primary (Forest Green)  #166534
+Accent (Green)          #15803D
+Base 100 (Background)   #FAFAF5
+Base Content (Text)     #1F2937
+```
 
 ### Code Example
 

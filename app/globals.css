@@ -193,7 +193,7 @@ html {
 }
 
 .palette-swatch {
-  @apply rounded-xl overflow-hidden border border-base-300 transition-all cursor-pointer hover:shadow-md;
+  @apply rounded-xl overflow-hidden border border-base-300 transition-all cursor-pointer hover:shadow-md flex flex-col;
 }
 
 .palette-swatch-color {
@@ -201,7 +201,7 @@ html {
 }
 
 .palette-swatch-info {
-  @apply p-2.5 bg-base-200;
+  @apply p-2.5 bg-base-200 flex-1;
 }
 
 /* ─── Color copy popup menu ─── */

@@ -253,6 +253,9 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
       >
         <ArrowUp size={16} />
       </button>
+
+      {/* Portal target for modals/popups so they inherit the active theme */}
+      <div id="theme-portal" />
     </div>
   )
 }

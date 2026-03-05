@@ -1,6 +1,7 @@
 ---
 title: Canvas
 theme: canvas
+icon: sun
 order: 4
 description: A warm light theme with cream tones and artistic serif headings.
 ---
@@ -15,12 +16,12 @@ Perfect for art direction docs, style guides, design systems, portfolio write-up
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#92400E` | Burnt sienna — links, active states |
-| `accent` | `#B45309` | Warm amber — highlights |
-| `base-100` | `#FDF8F0` | Warm cream — page background |
-| `base-content` | `#1C1917` | Near-black — body text |
+```palette
+Primary (Sienna)        #92400E
+Accent (Amber)          #B45309
+Base 100 (Background)   #FDF8F0
+Base Content (Text)     #1C1917
+```
 
 ### Code Example
 

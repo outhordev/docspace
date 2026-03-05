@@ -1,6 +1,7 @@
 ---
 title: Aurora
 theme: aurora
+icon: moon
 order: 2
 description: A dark theme with animated northern lights dancing across the sky.
 ---
@@ -15,13 +16,13 @@ A versatile dark theme that works well for general-purpose documentation, onboar
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#22C55E` | Emerald green — links, active states |
-| `secondary` | `#38BDF8` | Sky blue — supporting elements |
-| `accent` | `#A855F7` | Purple — highlights |
-| `base-100` | `#060818` | Deep navy-black — page background |
-| `base-content` | `#D0E0F0` | Cool white — body text |
+```palette
+Primary (Emerald)       #22C55E
+Secondary (Sky Blue)    #38BDF8
+Accent (Purple)         #A855F7
+Base 100 (Background)   #060818
+Base Content (Text)     #D0E0F0
+```
 
 ### Code Example
 

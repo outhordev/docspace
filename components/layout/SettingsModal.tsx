@@ -158,7 +158,7 @@ export default function SettingsModal({ onThemeChange, onWidthChange }: Settings
         </div>
 
         </div>
-      , document.body)}
+      , document.getElementById('theme-portal') || document.body)}
     </>
   )
 }

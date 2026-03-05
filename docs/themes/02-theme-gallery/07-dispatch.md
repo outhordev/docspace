@@ -1,6 +1,7 @@
 ---
 title: Dispatch
 theme: dispatch
+icon: sun
 order: 7
 description: A clean light theme with warm stone tones and orange accents.
 ---
@@ -15,12 +16,12 @@ Built for devlogs, changelogs, release notes, sprint reports, roadmaps, and any 
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#EA580C` | Burnt orange — links, active states |
-| `accent` | `#F97316` | Bright orange — highlights |
-| `base-100` | `#FAFAF9` | Warm white — page background |
-| `base-content` | `#1C1917` | Near-black — body text |
+```palette
+Primary (Orange)        #EA580C
+Accent (Bright Orange)  #F97316
+Base 100 (Background)   #FAFAF9
+Base Content (Text)     #1C1917
+```
 
 ### Code Example
 

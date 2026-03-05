@@ -1,6 +1,7 @@
 ---
 title: Deep Space
 theme: deepspace
+icon: moon
 order: 6
 description: A cosmic dark theme with an animated multi-layer starfield and nebula.
 ---
@@ -15,13 +16,13 @@ A great default for any dark documentation. Works especially well for space-rela
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#A78BFA` | Soft violet — links, active states |
-| `secondary` | `#7C3AED` | Deep purple — supporting accents |
-| `accent` | `#F472B6` | Pink — highlights |
-| `base-100` | `#0B0D17` | Deep space blue-black — page background |
-| `base-content` | `#C8C6D8` | Lavender grey — body text |
+```palette
+Primary (Violet)        #A78BFA
+Secondary (Purple)      #7C3AED
+Accent (Pink)           #F472B6
+Base 100 (Background)   #0B0D17
+Base Content (Text)     #C8C6D8
+```
 
 ### Code Example
 

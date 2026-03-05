@@ -1,0 +1,33 @@
+{
+  "displayName": "Ocean",
+  "isDark": true,
+  "bodyFont": "'Source Sans 3', sans-serif",
+  "headingFont": "'Playfair Display', serif",
+  "shikiTheme": "github-dark",
+  "sidebarIndicator": "border",
+  "tags": ["ocean", "sea", "water", "marine", "aquatic", "dive", "coral", "tide", "wave", "nautical", "sailing", "coast", "underwater", "deep"],
+  "googleFonts": ["Source+Sans+3:wght@400;700", "Playfair+Display:wght@400;700"],
+  "gradient": "linear-gradient(180deg, #07111F 0%, #0A1929 30%, #0C2340 60%, #081A2E 100%)",
+  "background": "",
+  "customCSS": ".ocean-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}.ocean-w1,.ocean-w2,.ocean-w3,.ocean-w4,.ocean-w5,.ocean-w6{position:absolute;width:160%;left:-30%;border-radius:50%;filter:blur(70px);opacity:0;will-change:transform,opacity}.ocean-w1{height:22%;top:-4%;background:linear-gradient(90deg,transparent 0%,rgba(15,80,140,0.14) 15%,rgba(20,110,170,0.10) 40%,rgba(10,70,130,0.12) 65%,transparent 100%);animation:ocean-s1 48s ease-in-out infinite}.ocean-w2{height:20%;top:12%;background:linear-gradient(90deg,transparent 0%,rgba(10,60,120,0.10) 20%,rgba(20,100,160,0.13) 50%,rgba(8,80,140,0.09) 75%,transparent 100%);animation:ocean-s2 62s ease-in-out infinite}.ocean-w3{height:24%;top:26%;background:linear-gradient(90deg,transparent 0%,rgba(5,50,100,0.12) 25%,rgba(15,90,155,0.14) 55%,rgba(10,70,130,0.10) 80%,transparent 100%);animation:ocean-s3 74s ease-in-out infinite}.ocean-w4{height:20%;top:44%;background:linear-gradient(90deg,transparent 0%,rgba(12,70,125,0.10) 20%,rgba(22,95,160,0.13) 45%,rgba(8,60,115,0.09) 70%,transparent 100%);animation:ocean-s4 56s ease-in-out infinite}.ocean-w5{height:22%;top:60%;background:linear-gradient(90deg,transparent 0%,rgba(8,55,110,0.09) 30%,rgba(18,85,145,0.12) 55%,rgba(12,65,120,0.10) 80%,transparent 100%);animation:ocean-s5 82s ease-in-out infinite}.ocean-w6{height:18%;top:76%;background:linear-gradient(90deg,transparent 0%,rgba(6,45,95,0.10) 25%,rgba(14,75,135,0.13) 50%,rgba(10,60,110,0.09) 75%,transparent 100%);animation:ocean-s6 68s ease-in-out infinite}.ocean-deep{position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to top,rgba(4,10,22,0.85) 0%,rgba(6,16,30,0.35) 50%,transparent 100%)}.ocean-mist{position:absolute;top:0;left:0;right:0;height:15%;background:linear-gradient(to bottom,rgba(30,80,130,0.05) 0%,transparent 100%)}@keyframes ocean-s1{0%,100%{transform:translateX(-2%) scaleY(1);opacity:0.35}25%{transform:translateX(1.5%) scaleY(1.1);opacity:0.5}50%{transform:translateX(3%) scaleY(0.92);opacity:0.42}75%{transform:translateX(-0.5%) scaleY(1.06);opacity:0.48}}@keyframes ocean-s2{0%,100%{transform:translateX(2%) scaleY(1);opacity:0.3}33%{transform:translateX(-2.5%) scaleY(1.12);opacity:0.45}66%{transform:translateX(2%) scaleY(0.9);opacity:0.38}}@keyframes ocean-s3{0%,100%{transform:translateX(0%) scaleY(1);opacity:0.32}20%{transform:translateX(2.5%) scaleY(1.08);opacity:0.45}50%{transform:translateX(-1.5%) scaleY(1.15);opacity:0.4}80%{transform:translateX(1%) scaleY(0.93);opacity:0.48}}@keyframes ocean-s4{0%,100%{transform:translateX(-1.5%) scaleY(1);opacity:0.3}25%{transform:translateX(2%) scaleY(1.08);opacity:0.42}50%{transform:translateX(-2%) scaleY(0.92);opacity:0.36}75%{transform:translateX(1.5%) scaleY(1.1);opacity:0.45}}@keyframes ocean-s5{0%,100%{transform:translateX(1%) scaleY(1);opacity:0.28}33%{transform:translateX(-2%) scaleY(1.1);opacity:0.4}66%{transform:translateX(2%) scaleY(0.92);opacity:0.34}}@keyframes ocean-s6{0%,100%{transform:translateX(-1%) scaleY(1);opacity:0.3}25%{transform:translateX(2%) scaleY(1.06);opacity:0.4}50%{transform:translateX(-1.5%) scaleY(1.12);opacity:0.36}75%{transform:translateX(0.5%) scaleY(0.94);opacity:0.42}}",
+  "customHTML": "<div class=\"ocean-bg\" aria-hidden=\"true\"><div class=\"ocean-w1\"></div><div class=\"ocean-w2\"></div><div class=\"ocean-w3\"></div><div class=\"ocean-w4\"></div><div class=\"ocean-w5\"></div><div class=\"ocean-w6\"></div><div class=\"ocean-deep\"></div><div class=\"ocean-mist\"></div></div>",
+  "colors": {
+    "primary": "#38BDF8",
+    "primary-content": "#071520",
+    "secondary": "#0EA5E9",
+    "secondary-content": "#E0F0F8",
+    "accent": "#2DD4BF",
+    "accent-content": "#071520",
+    "neutral": "#0F2A40",
+    "neutral-content": "#B0D0E4",
+    "base-100": "#07111F",
+    "base-200": "#0C1C30",
+    "base-300": "#122840",
+    "base-content": "#C4DCE8",
+    "info": "#38BDF8",
+    "success": "#2DD4BF",
+    "warning": "#FCD34D",
+    "error": "#FB7185"
+  }
+}
+

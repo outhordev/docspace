@@ -1,6 +1,7 @@
 ---
 title: Meadow
 theme: meadow
+icon: sun
 order: 8
 description: A warm, cozy light theme inspired by kraft paper and soft parchment tones.
 ---
@@ -15,13 +16,13 @@ A natural fit for anything cozy and inviting: cooking guides, gardening docs, jo
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#5b7a5e` | Dusty sage green — links, active states |
-| `secondary` | `#8b7355` | Warm brown — supporting accents |
-| `accent` | `#b86f50` | Soft terracotta — highlights |
-| `base-100` | `#f5e6c8` | Warm cream — page background |
-| `base-content` | `#3d3225` | Deep brown — body text |
+```palette
+Primary (Sage)          #5b7a5e
+Secondary (Brown)       #8b7355
+Accent (Terracotta)     #b86f50
+Base 100 (Background)   #f5e6c8
+Base Content (Text)     #3d3225
+```
 
 ### Code Example
 
@@ -51,7 +52,7 @@ herbs = [
 
 > *There's a particular kind of contentment that comes from slow work done well. Kneading dough, tending a garden, pressing flowers between the pages of a heavy book. These aren't shortcuts — they're the whole point. The rhythm itself is the reward.*
 
-The background uses a subtle tiled leaf-and-dot pattern on a slightly warm tone, scrolling on a slow diagonal — almost imperceptible, like the grain of handmade paper. The pattern is deliberately ultra-low contrast (3–4% opacity) so it reads as texture, not decoration.
+The background uses a tiled botanical pattern — tiny scattered seed and leaf shapes drifting slowly on a diagonal, like the grain of handmade paper. A fine speckle layer adds additional texture. Both are deliberately ultra-low contrast (3–5% opacity) so they read as natural material, not decoration.
 
 > [!NOTE]
 > Meadow's warm palette uses all analogous colors — no high-contrast jumps. Even the info and error tones are dusty and muted, keeping the entire page feeling cohesive and calm.

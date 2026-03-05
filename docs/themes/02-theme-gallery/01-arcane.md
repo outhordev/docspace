@@ -1,6 +1,7 @@
 ---
 title: Arcane
 theme: arcane
+icon: moon
 order: 1
 description: A dark theme with amber tones and a mystical, ancient feel.
 ---
@@ -15,12 +16,12 @@ This theme suits content with a narrative or historical character: worldbuilding
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#D97706` | Amber — links, active states |
-| `accent` | `#F59E0B` | Golden — highlights |
-| `base-100` | `#1C1410` | Deep brown-black — page background |
-| `base-content` | `#E8D5B0` | Warm cream — body text |
+```palette
+Primary (Amber)         #D97706
+Accent (Golden)         #F59E0B
+Base 100 (Background)   #1C1410
+Base Content (Text)     #E8D5B0
+```
 
 ### Code Example
 

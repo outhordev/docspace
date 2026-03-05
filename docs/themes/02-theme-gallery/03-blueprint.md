@@ -1,6 +1,7 @@
 ---
 title: Blueprint
 theme: blueprint
+icon: moon
 order: 3
 description: A dark technical theme with cyan accents and a grid-line pattern.
 ---
@@ -15,13 +16,13 @@ Ideal for API documentation, system architecture guides, infrastructure runbooks
 
 ### Colors at a Glance
 
-| Token | Color | Usage |
-|---|---|---|
-| `primary` | `#22D3EE` | Bright cyan — links, active states |
-| `secondary` | `#6366F1` | Indigo — supporting accents |
-| `accent` | `#818CF8` | Soft violet — highlights |
-| `base-100` | `#0A0F1E` | Deep navy — page background |
-| `base-content` | `#CBD5E1` | Slate white — body text |
+```palette
+Primary (Cyan)          #22D3EE
+Secondary (Indigo)      #6366F1
+Accent (Violet)         #818CF8
+Base 100 (Background)   #0A0F1E
+Base Content (Text)     #CBD5E1
+```
 
 ### Code Example
 
