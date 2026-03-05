@@ -2,6 +2,7 @@
 
 import {ReactNode, useCallback, useEffect, useRef, useState} from 'react'
 import {ArrowUp, ChevronRight, Menu, X} from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import Sidebar from './Sidebar'
 import SpaceSwitcher from './SpaceSwitcher'
 import SearchTrigger from '../search/SearchTrigger'
@@ -36,6 +37,7 @@ interface ShellProps {
 }
 
 export default function Shell({ children, spaces, currentSpace, currentPage, toc, themeStyles, pageTheme, appIconPath }: ShellProps) {
+  const pathname = usePathname()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [readingProgress, setReadingProgress] = useState(0)
@@ -73,7 +75,7 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
   // Scroll to top when navigating to a new page
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [currentPage?.slug, currentSpace?.slug])
+  }, [pathname])
 
   // Code copy button handler
   useEffect(() => {

@@ -1,6 +1,6 @@
 ---
 title: Page Groups
-order: 3
+order: 6
 description: Organize pages into collapsible sidebar sections using subfolders.
 ---
 

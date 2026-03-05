@@ -12,7 +12,7 @@ import { getAppIconPath } from '@/lib/appicon'
 export default function HomePage() {
   const manifest = getManifest()
   const totalPages = manifest.spaces.reduce((sum, s) => sum + s.pages.length, 0)
-  const homeTheme = getThemeConfig(config.homeTheme)
+  const homeTheme = getThemeConfig(config.defaultTheme)
 
   // Single-space redirect: skip landing page when there's only one space
   if (config.singleSpaceRedirect && manifest.spaces.length === 1) {
@@ -20,15 +20,15 @@ export default function HomePage() {
   }
 
   const bgStyle: React.CSSProperties = {}
-  if (config.homeGradient) {
-    bgStyle.background = config.homeGradient
+  if (config.defaultGradient) {
+    bgStyle.background = config.defaultGradient
   }
   if (homeTheme.background) {
     bgStyle.backgroundImage = homeTheme.background
   }
 
   return (
-    <div data-theme={config.homeTheme} className="min-h-screen bg-base-100 text-base-content relative overflow-hidden flex flex-col"
+    <div data-theme={config.defaultTheme} className="min-h-screen bg-base-100 text-base-content relative overflow-hidden flex flex-col"
       style={bgStyle}>
 
       {/* Inject theme custom CSS + HTML */}

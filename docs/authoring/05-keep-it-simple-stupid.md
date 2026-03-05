@@ -1,6 +1,6 @@
 ---
 title: Keep It Simple Stupid
-order: 1
+order: 5
 description: Minimal setup to get a working docs site.
 ---
 

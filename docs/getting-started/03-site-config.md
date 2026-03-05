@@ -13,8 +13,8 @@ const config = {
   title: 'docspace',
   description: 'A file-driven documentation site for projects.',
   footerText: 'docspace',
-  homeTheme: 'deepspace',
-  homeGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
+  defaultTheme: 'deepspace',
+  defaultGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
   singleSpaceRedirect: true,
   numericPrefixInPageSlugs: false,
   numericPrefixInSpaceSlugs: false,
@@ -36,8 +36,8 @@ export default config
 | `title` | `string` | `'docspace Docs'` | Site name — navbar, browser tab, and landing hero |
 | `description` | `string` | `'A file-driven...'` | HTML meta description |
 | `footerText` | `string` | `'docspace Docs'` | Text shown in the footer on every page |
-| `homeTheme` | `string` | `'deepspace'` | Theme applied to the landing page |
-| `homeGradient` | `string` | CSS gradient | Background gradient for the landing page; `''` to disable |
+| `defaultTheme` | `string` | `'deepspace'` | Theme for the landing page, 404, and standalone pages |
+| `defaultGradient` | `string` | CSS gradient | Background gradient for default-themed pages; `''` to disable |
 | `singleSpaceRedirect` | `boolean` | `true` | Skip the landing page when only one space exists |
 | `numericPrefixInPageSlugs` | `boolean` | `false` | Keep `01-` prefixes in page URLs |
 | `numericPrefixInSpaceSlugs` | `boolean` | `false` | Keep `01-` prefixes in space URLs |
@@ -102,9 +102,9 @@ numericPrefixInSpaceSlugs: true,  // 01-guides/ → /01-guides
 > [!NOTE]
 > Numeric prefixes are always used for ordering regardless of these settings. These options only affect how the URL slug is generated.
 
-## Landing Page Theme
+## Default Theme
 
-The `homeTheme` setting controls the visual style of the landing page independently of any space theme. Use any theme name from `themes/`, or the built-in `'dark'` / `'light'`.
+The `defaultTheme` setting controls the visual style of the landing page, the 404 page, and any other standalone pages. Use any theme name from `themes/`, or the built-in `'dark'` / `'light'`.
 
 > [!TIP]
-> The `homeGradient` overlays on top of the theme. Set it to an empty string `''` if you want the theme's default `base-100` background instead.
+> The `defaultGradient` overlays on top of the theme. Set it to an empty string `''` if you want the theme's default `base-100` background instead.

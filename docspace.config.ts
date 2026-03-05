@@ -12,21 +12,23 @@ const config = {
 
   /** Short description — used in HTML meta tags. */
   description: 'A file-driven documentation site for projects.',
-  
+
   /** Footer text — shown at the bottom of every page. */
   footerText: `docspace | ${new Date().getFullYear()}`,
 
   /**
-   * Home page theme.
+   * Default theme.
+   * Used for the landing page, 404 page, and other standalone pages.
    * Any theme name from /themes/*.json, or 'dark' or 'light'.
    */
-  homeTheme: 'deepspace',
+  defaultTheme: 'deepspace',
 
   /**
-   * Home page gradient background (CSS).
-   * Set to '' to use the theme's default base-100 color.
+   * Default gradient background (CSS).
+   * Applied to the landing page and 404 page.
+   * Set to '' to use the theme's default base-100 color instead.
    */
-  homeGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
+  defaultGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
 
   /**
    * Single-space redirect.

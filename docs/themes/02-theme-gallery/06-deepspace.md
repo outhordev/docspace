@@ -54,7 +54,7 @@ impl Spacecraft {
 The starfield animation is built from pure CSS radial gradients at three scale layers, each drifting independently. The nebula overlay uses soft radial gradients for color without impacting readability.
 
 > [!NOTE]
-> Deep Space is the default `homeTheme` in `docspace.config.ts`. It's designed to look impressive on landing pages while remaining readable for long-form documentation.
+> Deep Space is the default `defaultTheme` in `docspace.config.ts`. It's designed to look impressive on landing pages while remaining readable for long-form documentation.
 
 ### Tags
 

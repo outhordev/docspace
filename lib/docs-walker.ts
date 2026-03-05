@@ -147,8 +147,7 @@ export function buildManifest(): DocsManifest {
 
   for (const entry of entries) {
     if (entry.isFile() && entry.name.endsWith('.md')) {
-      // Skip progress.md and _-prefixed files from public navigation
-      if (entry.name === 'progress.md') continue
+      // Skip _-prefixed files from public navigation
       if (entry.name.startsWith('_')) continue
 
       const filePath = path.join(DOCS_DIR, entry.name)
