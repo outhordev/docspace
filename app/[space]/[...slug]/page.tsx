@@ -38,8 +38,12 @@ export default async function DocPageRoute({ params }: DocPageRouteProps) {
 
   const { space, page } = result
   const { content, data } = readPageContent(page.filePath)
-  const { html, headings } = await renderMarkdown(content, space.theme)
-  const themeConfig = getThemeConfig(space.theme)
+
+  // Per-page theme override: frontmatter `theme` takes priority over space theme
+  const pageThemeOverride = data.theme as string | undefined
+  const effectiveTheme = pageThemeOverride || space.theme
+  const { html, headings } = await renderMarkdown(content, effectiveTheme)
+  const themeConfig = getThemeConfig(effectiveTheme)
 
   // Find prev/next pages
   const pageIndex = space.pages.findIndex(p => p.slug === page.slug)
@@ -65,9 +69,10 @@ export default async function DocPageRoute({ params }: DocPageRouteProps) {
         customHTML: themeConfig.customHTML,
         isDark: themeConfig.isDark,
       }}
+      pageTheme={pageThemeOverride}
     >
       <div data-pagefind-meta={`space:${space.title}`} hidden />
-      <div data-pagefind-meta={`theme:${space.theme}`} hidden />
+      <div data-pagefind-meta={`theme:${effectiveTheme}`} hidden />
       <DocPage
         html={html}
         title={(data.title as string) || page.title}

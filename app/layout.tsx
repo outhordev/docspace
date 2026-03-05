@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, IM_Fell_English, JetBrains_Mono, Lora, Bitter, Space_Grotesk } from 'next/font/google'
+import { Inter, IM_Fell_English, JetBrains_Mono, Lora, Bitter, Space_Grotesk, Nunito } from 'next/font/google'
 import './globals.css'
 import config from '@/docspace.config'
 
@@ -9,6 +9,7 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-hea
 const lora = Lora({ subsets: ['latin'], variable: '--font-heading-canvas' })
 const bitter = Bitter({ subsets: ['latin'], variable: '--font-heading-scroll' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-heading-dispatch' })
+const nunito = Nunito({ subsets: ['latin'], variable: '--font-body-meadow' })
 
 export const metadata: Metadata = {
   title: config.title,
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${imFellEnglish.variable} ${jetbrainsMono.variable} ${lora.variable} ${bitter.variable} ${spaceGrotesk.variable}`}
+      className={`${inter.variable} ${imFellEnglish.variable} ${jetbrainsMono.variable} ${lora.variable} ${bitter.variable} ${spaceGrotesk.variable} ${nunito.variable}`}
     >
       <body className={`${inter.className} antialiased`}>
         {/* Blocking script: read theme preference before first paint to prevent flash */}

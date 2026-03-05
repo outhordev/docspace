@@ -39,7 +39,23 @@ export default async function SpacePage({ params }: SpacePageProps) {
   if (space.pages.length > 0) {
     const firstPage = space.pages[0]
     const { content, data } = readPageContent(firstPage.filePath)
-    const { html, headings } = await renderMarkdown(content, space.theme)
+
+    // Per-page theme override: frontmatter `theme` takes priority over space theme
+    const pageThemeOverride = data.theme as string | undefined
+    const effectiveTheme = pageThemeOverride || space.theme
+    const { html, headings } = await renderMarkdown(content, effectiveTheme)
+
+    // If this page overrides the theme, rebuild themeStyles from the page theme
+    const effectiveThemeConfig = pageThemeOverride ? getThemeConfig(effectiveTheme) : null
+    const effectiveThemeStyles = effectiveThemeConfig ? {
+      headingFont: effectiveThemeConfig.headingFont,
+      bodyFont: effectiveThemeConfig.bodyFont,
+      background: effectiveThemeConfig.background,
+      gradient: effectiveThemeConfig.gradient,
+      customCSS: effectiveThemeConfig.customCSS,
+      customHTML: effectiveThemeConfig.customHTML,
+      isDark: effectiveThemeConfig.isDark,
+    } : themeStyles
 
     const nextPage = space.pages.length > 1
       ? { slug: space.pages[1].slug, title: space.pages[1].title, spaceSlug: space.slug }
@@ -51,10 +67,11 @@ export default async function SpacePage({ params }: SpacePageProps) {
         currentSpace={space}
         currentPage={firstPage}
         toc={<TableOfContents headings={headings} />}
-        themeStyles={themeStyles}
+        themeStyles={effectiveThemeStyles}
+        pageTheme={pageThemeOverride}
       >
         <div data-pagefind-meta={`space:${space.title}`} hidden />
-        <div data-pagefind-meta={`theme:${space.theme}`} hidden />
+        <div data-pagefind-meta={`theme:${effectiveTheme}`} hidden />
         <DocPage
           html={html}
           title={(data.title as string) || firstPage.title}

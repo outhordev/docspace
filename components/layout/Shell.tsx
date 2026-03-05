@@ -28,16 +28,18 @@ interface ShellProps {
   currentPage?: Page
   toc?: ReactNode
   themeStyles?: ThemeStyles
+  /** Per-page theme override (from frontmatter) — overrides the space theme */
+  pageTheme?: string
 }
 
-export default function Shell({ children, spaces, currentSpace, currentPage, toc, themeStyles }: ShellProps) {
+export default function Shell({ children, spaces, currentSpace, currentPage, toc, themeStyles, pageTheme }: ShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [readingProgress, setReadingProgress] = useState(0)
   const [themeOverride, setThemeOverride] = useThemeOverride()
   const [contentWidth, setContentWidth] = useContentWidth()
 
-  const customTheme = currentSpace?.theme || 'dark'
+  const customTheme = pageTheme || currentSpace?.theme || 'dark'
 
   // Resolve final data-theme: custom uses the space's theme, dark/light overrides it
   const resolvedTheme = themeOverride === 'custom' ? customTheme : themeOverride
