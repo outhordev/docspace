@@ -20,6 +20,7 @@ export interface ThemeConfig {
   customCSS: string      // Arbitrary CSS injected into <style> when theme is active
   customHTML: string      // Arbitrary HTML injected into the page (e.g. decorative divs)
   colors: Record<string, string>  // DaisyUI color tokens
+  tags: string[]         // Semantic tags for content-aware auto-assignment
 }
 
 export interface SpaceThemeChoice {
@@ -41,6 +42,7 @@ const DARK_BASE: ThemeConfig = {
   background: '',
   customCSS: '',
   customHTML: '',
+  tags: [],
   colors: {
     'primary': '#6C63FF',
     'primary-content': '#E0E0E0',
@@ -73,6 +75,7 @@ const LIGHT_BASE: ThemeConfig = {
   background: '',
   customCSS: '',
   customHTML: '',
+  tags: [],
   colors: {
     'primary': '#4F46E5',
     'primary-content': '#FFFFFF',
@@ -131,6 +134,7 @@ export function loadAllThemes(): Record<string, ThemeConfig> {
           customCSS: data.customCSS || '',
           customHTML: data.customHTML || '',
           colors: data.colors || {},
+          tags: Array.isArray(data.tags) ? data.tags : [],
         }
       } catch {
         // Skip malformed theme files
@@ -151,50 +155,138 @@ export function getThemeConfig(name: string): ThemeConfig {
 }
 
 /**
+ * Tokenize a string into lowercase alphanumeric words (3+ chars).
+ */
+function tokenize(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length >= 3)
+}
+
+/**
+ * Score a theme against a bag of words from a space's content.
+ * Each tag can be a multi-word phrase — we check if the phrase appears
+ * in the raw lowercased text, or if individual tag words appear in the token bag.
+ *
+ * Returns a score ≥ 0 (higher = better fit).
+ */
+function scoreTheme(theme: ThemeConfig, folderTokens: string[], contentTokens: string[], rawText: string): number {
+  if (theme.tags.length === 0) return 0
+
+  let score = 0
+
+  for (const tag of theme.tags) {
+    const tagLower = tag.toLowerCase()
+    const tagWords = tokenize(tagLower)
+
+    // Multi-word phrase match against raw text (strongest signal)
+    if (tagWords.length > 1 && rawText.includes(tagLower)) {
+      score += 3
+      continue
+    }
+
+    // Single-word matching against folder name (strong signal)
+    for (const tw of tagWords) {
+      if (folderTokens.includes(tw)) {
+        score += 4
+      }
+    }
+
+    // Single-word matching against page content (weaker but useful)
+    for (const tw of tagWords) {
+      if (contentTokens.includes(tw)) {
+        score += 1
+      }
+    }
+  }
+
+  return score
+}
+
+/**
+ * Collect text from a space directory for content-aware theme matching.
+ * Reads the first ~500 chars of each markdown file + all page titles/filenames.
+ * Lightweight — only called when no theme is explicitly set.
+ */
+function collectSpaceText(spaceDir: string): string {
+  const parts: string[] = []
+
+  function walk(dir: string) {
+    let entries: fs.Dirent[]
+    try { entries = fs.readdirSync(dir, { withFileTypes: true }) } catch { return }
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) continue
+      const full = path.join(dir, entry.name)
+      if (entry.isDirectory()) {
+        parts.push(entry.name)
+        walk(full)
+      } else if (entry.name.endsWith('.md')) {
+        parts.push(entry.name.replace(/\.md$/, ''))
+        try {
+          const raw = fs.readFileSync(full, 'utf-8')
+          // Grab front-matter title + first ~500 chars of body
+          parts.push(raw.slice(0, 800))
+        } catch { /* skip unreadable */ }
+      }
+    }
+  }
+
+  walk(spaceDir)
+  return parts.join(' ')
+}
+
+/**
  * Resolve a space's theme choice into an actual ThemeConfig.
  *
  * The _meta.md can specify:
  *   theme: arcane          → custom theme
- *   theme: dark            → dark base (styled to space's icon/vibe)
- *   theme: light           → light base (styled to space's icon/vibe)
+ *   theme: dark            → dark base
+ *   theme: light           → light base
  *
- * If no theme is set, the system auto-assigns based on folder name keywords.
+ * If no theme is set, the system auto-assigns by:
+ *  1. Exact folder-name ↔ theme-name match
+ *  2. Scoring each theme's `tags` against the space's folder name + page content
+ *  3. Round-robin fallback to avoid duplicate themes
  */
-export function resolveTheme(themeValue: string | undefined, folderName: string, usedThemes: Set<string>): string {
+export function resolveTheme(themeValue: string | undefined, folderName: string, usedThemes: Set<string>, spaceDir?: string): string {
   if (themeValue) {
     const themes = loadAllThemes()
     if (themes[themeValue]) return themeValue
   }
 
-  // Auto-assign by keyword matching
   const themes = loadAllThemes()
   const normalized = folderName.toLowerCase().replace(/[^a-z]/g, '')
-
-  // Check custom themes first — each theme can match by its own name
   const customNames = Object.keys(themes).filter(k => k !== 'dark' && k !== 'light')
+
+  // 1. Exact name match (folder name ↔ theme name)
   for (const themeName of customNames) {
     if (normalized.includes(themeName) || themeName.includes(normalized)) {
       return themeName
     }
   }
 
-  // Hard-coded keyword fallbacks
-  const KEYWORD_MAP: Record<string, string> = {
-    worldbuilding: 'arcane', lore: 'arcane', narrative: 'arcane', story: 'arcane',
-    technical: 'blueprint', engineering: 'blueprint', code: 'blueprint', api: 'blueprint',
-    artstyle: 'canvas', art: 'canvas', visual: 'canvas',
-    gamedesign: 'scroll', design: 'scroll', mechanics: 'scroll',
-    devlog: 'dispatch', production: 'dispatch', pipeline: 'dispatch',
-    cyber: 'cyberpunk', neon: 'cyberpunk', hacking: 'cyberpunk', punk: 'cyberpunk',
-    meadow: 'meadow', cozy: 'meadow', cute: 'meadow', garden: 'meadow', nature: 'meadow',
-    aurora: 'aurora', northern: 'aurora', sky: 'aurora', lights: 'aurora', space: 'deepspace',
-  }
+  // 2. Content-aware scoring via theme tags
+  const folderTokens = tokenize(folderName)
 
-  if (KEYWORD_MAP[normalized] && themes[KEYWORD_MAP[normalized]]) {
-    return KEYWORD_MAP[normalized]
-  }
+  // Gather content text if we know the space directory
+  const rawText = spaceDir ? collectSpaceText(spaceDir).toLowerCase() : folderName.toLowerCase()
+  const contentTokens = [...new Set(tokenize(rawText))]
 
-  // Round-robin custom themes
+  const scored = customNames
+    .map(name => ({ name, score: scoreTheme(themes[name], folderTokens, contentTokens, rawText) }))
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+
+  // Pick the highest-scoring theme that hasn't been used yet
+  for (const { name } of scored) {
+    if (!usedThemes.has(name)) return name
+  }
+  // If all scored themes are taken, still prefer the best match
+  if (scored.length > 0) return scored[0].name
+
+  // 3. Round-robin unused custom themes
   for (const name of customNames) {
     if (!usedThemes.has(name)) return name
   }

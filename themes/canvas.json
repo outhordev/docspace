@@ -5,6 +5,7 @@
   "headingFont": "'Lora', serif",
   "shikiTheme": "github-light",
   "sidebarIndicator": "pill",
+  "tags": ["art", "visual", "design", "illustration", "creative", "painting", "drawing", "sketch", "color", "typography", "aesthetic", "gallery", "portfolio", "style guide"],
   "gradient": "linear-gradient(135deg, #FDF8F0 0%, #F5EDE0 30%, #FBF4E8 60%, #FDF8F0 100%)",
   "background": "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2392400E' fill-opacity='0.02'%3E%3Ccircle cx='40' cy='40' r='1.5'/%3E%3C/g%3E%3C/svg%3E\")",
   "colors": {

@@ -5,6 +5,7 @@
   "headingFont": "'Bitter', serif",
   "shikiTheme": "everforest-light",
   "sidebarIndicator": "pill",
+  "tags": ["game design", "mechanics", "rules", "tutorial", "guide", "handbook", "reference", "manual", "specification", "policy", "procedure", "documentation", "wiki", "knowledge base"],
   "gradient": "linear-gradient(135deg, #FAFAF5 0%, #F0F0E8 30%, #F5F5ED 60%, #FAFAF5 100%)",
   "background": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23166534' fill-opacity='0.02'%3E%3Cpath d='M30 30L45 15M30 30L15 45'/%3E%3C/g%3E%3C/svg%3E\")",
   "colors": {

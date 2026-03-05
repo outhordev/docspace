@@ -169,7 +169,7 @@ export function buildManifest(): DocsManifest {
 
       // Determine theme
       const themeOverride = spaceMeta.theme as string | undefined
-      const theme = resolveTheme(themeOverride, entry.name, usedThemes)
+      const theme = resolveTheme(themeOverride, entry.name, usedThemes, spaceDir)
       usedThemes.add(theme)
 
       // Build sidebar tree (supports nested subfolders as collapsible groups)
