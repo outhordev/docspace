@@ -49,4 +49,4 @@ Place an image in `public/appicon/` (png, svg, ico, etc.) and it becomes the fav
 
 Full docs are included in the `docs/` folder of this repo and deployed using docspace here:
 
-**[→ Read the docs](https://outhordev.github.io/manifolds/)**
+**[→ Read the docs](https://outhordev.github.io/docspace/)**
