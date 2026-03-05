@@ -21,6 +21,7 @@ export interface ThemeConfig {
   customHTML: string      // Arbitrary HTML injected into the page (e.g. decorative divs)
   colors: Record<string, string>  // DaisyUI color tokens
   tags: string[]         // Semantic tags for content-aware auto-assignment
+  googleFonts: string[]  // Google Fonts families to load (e.g. "IM Fell English:ital@0", "Bitter:wght@400;700")
 }
 
 export interface SpaceThemeChoice {
@@ -43,6 +44,7 @@ const DARK_BASE: ThemeConfig = {
   customCSS: '',
   customHTML: '',
   tags: [],
+  googleFonts: [],
   colors: {
     'primary': '#6C63FF',
     'primary-content': '#E0E0E0',
@@ -76,6 +78,7 @@ const LIGHT_BASE: ThemeConfig = {
   customCSS: '',
   customHTML: '',
   tags: [],
+  googleFonts: [],
   colors: {
     'primary': '#4F46E5',
     'primary-content': '#FFFFFF',
@@ -135,6 +138,7 @@ export function loadAllThemes(): Record<string, ThemeConfig> {
           customHTML: data.customHTML || '',
           colors: data.colors || {},
           tags: Array.isArray(data.tags) ? data.tags : [],
+          googleFonts: Array.isArray(data.googleFonts) ? data.googleFonts : [],
         }
       } catch {
         // Skip malformed theme files
@@ -337,3 +341,22 @@ export function buildDaisyUIThemes(): Record<string, Record<string, string>>[] {
     [name]: config.colors,
   }))
 }
+
+/**
+ * Collect all Google Font families declared by themes and return
+ * a single Google Fonts stylesheet URL that loads them all.
+ * Returns null if no fonts are needed.
+ */
+export function getGoogleFontsURL(): string | null {
+  const themes = loadAllThemes()
+  const families = new Set<string>()
+  for (const t of Object.values(themes)) {
+    for (const f of t.googleFonts) {
+      families.add(f)
+    }
+  }
+  if (families.size === 0) return null
+  const params = [...families].map(f => `family=${f.replace(/ /g, '+')}`).join('&')
+  return `https://fonts.googleapis.com/css2?${params}&display=swap`
+}
+

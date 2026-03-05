@@ -99,7 +99,7 @@ Create a JSON file in `themes/` — for example `themes/midnight.json`:
 {
   "displayName": "Midnight",
   "isDark": true,
-  "bodyFont": "Inter, sans-serif",
+  "bodyFont": "'Crimson Text', serif",
   "headingFont": "Georgia, serif",
   "shikiTheme": "github-dark",
   "sidebarIndicator": "border",
@@ -108,6 +108,7 @@ Create a JSON file in `themes/` — for example `themes/midnight.json`:
   "customCSS": "",
   "customHTML": "",
   "tags": ["night", "astronomy", "dark mode"],
+  "googleFonts": ["Crimson+Text:wght@400;700"],
   "colors": {
     "primary": "#818CF8",
     "primary-content": "#0a0a1a",
@@ -143,7 +144,23 @@ No registration step needed — docspace discovers new theme files at build time
 | `customCSS` | `string` | Raw CSS injected in a `<style>` tag when the theme is active |
 | `customHTML` | `string` | Raw HTML injected into the page (e.g. decorative elements) |
 | `tags` | `string[]` | Keywords for content-aware auto-assignment |
+| `googleFonts` | `string[]` | Google Fonts families to load (see below) |
 | `colors` | `object` | DaisyUI color tokens |
+
+### Google Fonts
+
+The `googleFonts` array tells docspace which fonts to load from Google Fonts. Each entry is a [Google Fonts API v2](https://developers.google.com/fonts/docs/css2) family string:
+
+```json
+"googleFonts": ["Crimson+Text:wght@400;700", "Lora:wght@400;700"]
+```
+
+At build time, docspace collects all font families across every theme and loads them in a single stylesheet — no manual imports needed. Fonts are deduplicated automatically, so if two themes both use Bitter, it's only loaded once.
+
+This means themes are fully standalone: drop a JSON file in `themes/`, reference any Google Font by name in `bodyFont` or `headingFont`, list it in `googleFonts`, and it just works. No need to edit `layout.tsx` or install anything.
+
+> [!TIP]
+> Use `+` for spaces in font names and specify weights with `wght@400;700`. For italic support, add `ital,wght@0,400;0,700;1,400` syntax. See the [Google Fonts CSS2 API docs](https://developers.google.com/fonts/docs/css2) for the full format.
 
 ### Color Tokens
 

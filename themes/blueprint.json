@@ -6,6 +6,7 @@
   "shikiTheme": "dracula",
   "sidebarIndicator": "border",
   "tags": ["technical", "engineering", "api", "code", "architecture", "system", "infrastructure", "database", "protocol", "sdk", "developer", "backend", "devops", "schema"],
+  "googleFonts": ["JetBrains+Mono:wght@400;700"],
   "gradient": "linear-gradient(135deg, #0A0F1E 0%, #0F1A30 30%, #0A1628 60%, #0A0F1E 100%)",
   "background": "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%2322D3EE' stroke-opacity='0.05' fill='none'%3E%3Cpath d='M0 20h40M20 0v40'/%3E%3C/g%3E%3C/svg%3E\")",
   "colors": {
