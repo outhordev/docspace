@@ -1,7 +1,7 @@
 ---
 title: Themes
 icon: palette
-theme: canvas
+theme: deepspace
 order: 5
 description: Visual themes, customization, and a live gallery.
 ---

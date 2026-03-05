@@ -6,11 +6,11 @@ description: Per-space theming, per-page overrides, content-aware auto-assignmen
 
 ## How Theming Works
 
-Every space can have its own visual identity — colors, fonts, code highlighting style, and even injected custom CSS or HTML. Themes are JSON files in the `themes/` directory. Assign one to a space via its `_meta.md`, or let docspace pick one automatically.
+Every space can have its own visual identity — colors, fonts, code highlighting, and even injected custom CSS or HTML. Themes are JSON files in the `themes/` directory. Assign one to a space via `_meta.md`, or let docspace pick one automatically.
 
 ## Built-In Themes
 
-docspace ships with two base themes and nine custom themes:
+docspace ships with two base themes and ten custom themes:
 
 | Theme | Mode | Character |
 |---|---|---|
@@ -24,6 +24,7 @@ docspace ships with two base themes and nine custom themes:
 | `deepspace` | Dark | Cosmic with an animated starfield background |
 | `dispatch` | Light | Clean stone with orange accents, newsy feel |
 | `meadow` | Light | Lush greens with drifting clouds and flowers |
+| `ocean` | Dark | Deep blues with gentle wave animations |
 | `scroll` | Light | Off-white, forest green, scholarly |
 
 Browse them all in the [Theme Gallery](/themes/theme-gallery/arcane).
