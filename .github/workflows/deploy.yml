@@ -1,4 +1,4 @@
-name: Build & Deploy Wiki
+name: Build & Deploy to Github Pages
 
 on:
   push:
@@ -30,11 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Next.js static export
+      - name: Build
         run: npm run build
+        env:
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
 
-      - name: Install Pagefind & build search index
-        run: npx pagefind --site out
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

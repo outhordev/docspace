@@ -79,11 +79,16 @@ function SearchModal() {
 function SearchInput() {
   useEffect(() => {
     let pagefind: any = null
+    let basePath = ''
 
     async function loadPagefind() {
       try {
-        // @ts-ignore
-        pagefind = await import(/* webpackIgnore: true */ '/pagefind/pagefind.js')
+        // Detect basePath from Next.js script tags (they always include it)
+        const nextScript = document.querySelector('script[src*="/_next/"]') as HTMLScriptElement | null
+        basePath = nextScript?.src?.match(/^(.*?)\/_next\//)?.[1]?.replace(window.location.origin, '') || ''
+        const url = `${nextScript?.src?.match(/^(.*?)\/_next\//)?.[1] || ''}/pagefind/pagefind.js`
+        // @ts-ignore – dynamic import of external module
+        pagefind = await import(/* webpackIgnore: true */ url)
         await pagefind.init()
       } catch {
         // Not available in dev
@@ -128,14 +133,18 @@ function SearchInput() {
           )
           results!.innerHTML = items
             .map(
-              (item: any) => `
-            <a href="${item.url}"
+              (item: any) => {
+                // Pagefind URLs are relative to site root; prepend basePath for subpath deployments
+                const href = basePath + (item.url || '')
+                return `
+            <a href="${href}"
                class="flex flex-col gap-1 p-3 rounded-lg hover:bg-base-200 transition-colors cursor-pointer"
                onclick="document.getElementById('search-modal').close()">
               <div class="text-sm font-medium text-base-content">${item.meta?.title || 'Untitled'}</div>
               <div class="text-xs text-base-content/50 line-clamp-2">${item.excerpt || ''}</div>
             </a>
           `
+              }
             )
             .join('')
         } catch {
