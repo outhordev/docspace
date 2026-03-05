@@ -10,10 +10,9 @@ All site-wide settings live in `docspace.config.ts` at the project root:
 
 ```typescript
 const config = {
-  title: 'docspace Docs',
+  title: 'docspace',
   description: 'A file-driven documentation site for projects.',
-  favicon: '/favicon.svg',
-  footerText: 'docspace Docs',
+  footerText: 'docspace',
   homeTheme: 'deepspace',
   homeGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
   singleSpaceRedirect: true,
@@ -36,7 +35,6 @@ export default config
 |---|---|---|---|
 | `title` | `string` | `'docspace Docs'` | Site name — navbar, browser tab, and landing hero |
 | `description` | `string` | `'A file-driven...'` | HTML meta description |
-| `favicon` | `string` | `'/favicon.svg'` | Path relative to `/public` |
 | `footerText` | `string` | `'docspace Docs'` | Text shown in the footer on every page |
 | `homeTheme` | `string` | `'deepspace'` | Theme applied to the landing page |
 | `homeGradient` | `string` | CSS gradient | Background gradient for the landing page; `''` to disable |
@@ -44,6 +42,22 @@ export default config
 | `numericPrefixInPageSlugs` | `boolean` | `false` | Keep `01-` prefixes in page URLs |
 | `numericPrefixInSpaceSlugs` | `boolean` | `false` | Keep `01-` prefixes in space URLs |
 | `contentWidthOptions` | `array` | 4 presets | Width choices shown in the reader settings modal |
+
+## App Icon
+
+To add a favicon and navbar icon, place an image file in `public/appicon/`:
+
+```
+public/
+  appicon/
+    icon.png      ← or .svg, .ico, .jpg, .webp
+```
+
+docspace auto-detects the file at build time and uses it as:
+- The **browser favicon** (tab icon)
+- The **navbar logo** (next to the site title)
+
+If no file is found in `public/appicon/`, no icon is shown — just the site title.
 
 ## Content Width Options
 

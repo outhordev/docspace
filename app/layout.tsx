@@ -3,18 +3,24 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import config from '@/docspace.config'
 import { getGoogleFontsURL } from '@/lib/themes'
+import { getAppIconPath, getIconMimeType } from '@/lib/appicon'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 // Collect all fonts declared by theme JSON files
 const themeFontsURL = getGoogleFontsURL()
 
+// Auto-detect app icon from public/appicon/
+const appIconPath = getAppIconPath()
+
 export const metadata: Metadata = {
   title: config.title,
   description: config.description,
-  icons: {
-    icon: config.favicon,
-  },
+  ...(appIconPath ? {
+    icons: {
+      icon: { url: appIconPath, type: getIconMimeType(appIconPath) },
+    },
+  } : {}),
 }
 
 export default function RootLayout({

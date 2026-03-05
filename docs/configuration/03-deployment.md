@@ -55,24 +55,93 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-### Netlify
+### Cloudflare Pages
+
+**Option A — Connect your repo (recommended):**
+
+1. Go to [Cloudflare Dashboard → Workers & Pages → Create](https://dash.cloudflare.com/)
+2. Connect your GitHub/GitLab repo
+3. Configure:
 
 | Setting | Value |
 |---|---|
 | Build command | `npm run build` |
-| Publish directory | `out` |
+| Build output directory | `out` |
+| Node.js version | `20` (set via environment variable `NODE_VERSION = 20`) |
 
-### Vercel
+4. Deploy. Cloudflare will rebuild on every push to `main`.
 
-| Setting | Value |
-|---|---|
-| Build command | `npm run build` |
-| Output directory | `out` |
-| Framework preset | Next.js |
+**Option B — Direct upload via CLI:**
+
+```bash
+npm run build
+npx wrangler pages deploy out --project-name=my-docs
+```
+
+You'll need the [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/) and a Cloudflare account.
+
+> [!TIP]
+> Cloudflare Pages handles SPA routing and trailing slashes automatically — no extra config needed for a static export.
+
+### Self-Hosted (Nginx, Caddy, or Docker)
+
+Build locally (or in CI), then serve the `out/` folder with any web server.
+
+**Quick local preview:**
+
+```bash
+npm run build
+npx serve out
+```
+
+**Nginx:**
+
+```nginx
+server {
+    listen       80;
+    server_name  docs.example.com;
+    root         /var/www/docspace/out;
+    index        index.html;
+
+    location / {
+        try_files $uri $uri/ $uri.html =404;
+    }
+
+    location /_next/static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /pagefind/ {
+        expires 1d;
+    }
+}
+```
+
+**Caddy:**
+
+```
+docs.example.com {
+    root * /var/www/docspace/out
+    file_server
+    try_files {path} {path}/ {path}.html
+}
+```
+
+**Docker (minimal):**
+
+```dockerfile
+FROM nginx:alpine
+COPY out/ /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+```
+
+For any self-hosted setup: `npm run build`, copy `out/` to your server, point your web server at it.
 
 ### Other Providers
 
-The `out/` folder works with **Cloudflare Pages**, **AWS S3 + CloudFront**, **Azure Static Web Apps**, or a simple `npx serve out` for local preview.
+The `out/` folder also works with **Netlify**, **Vercel**, **AWS S3 + CloudFront**, **Azure Static Web Apps**, or any other static hosting. Just set the build command to `npm run build` and the output directory to `out`.
 
 ## Base Path
 
@@ -86,7 +155,7 @@ const nextConfig = {
 ```
 
 > [!WARNING]
-> After changing the base path, double-check any hardcoded paths in your config (e.g. the favicon).
+> After changing the base path, double-check that your `public/appicon/` image still loads correctly.
 
 ## Search After Deploy
 

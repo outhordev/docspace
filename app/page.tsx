@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import DynamicIcon from '@/components/layout/DynamicIcon'
 import HomeNavbar from '@/components/layout/HomeNavbar'
 import config from '@/docspace.config'
+import { getAppIconPath } from '@/lib/appicon'
 
 
 export default function HomePage() {
@@ -39,7 +40,7 @@ export default function HomePage() {
       )}
 
       {/* Navbar — same as space pages */}
-      <HomeNavbar spaces={manifest.spaces} />
+      <HomeNavbar spaces={manifest.spaces} appIconPath={getAppIconPath()} />
 
       {/* Content */}
       <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 page-enter flex-1">

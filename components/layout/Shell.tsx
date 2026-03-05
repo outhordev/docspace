@@ -9,6 +9,7 @@ import SettingsModal, { useContentWidth } from './SettingsModal'
 import { useThemeOverride } from './ThemeToggle'
 import type {Page, Space} from '@/lib/docs-walker'
 import Link from 'next/link'
+import Image from 'next/image'
 import config from '@/docspace.config'
 
 interface ThemeStyles {
@@ -30,9 +31,11 @@ interface ShellProps {
   themeStyles?: ThemeStyles
   /** Per-page theme override (from frontmatter) — overrides the space theme */
   pageTheme?: string
+  /** Path to app icon image, resolved at build time */
+  appIconPath?: string | null
 }
 
-export default function Shell({ children, spaces, currentSpace, currentPage, toc, themeStyles, pageTheme }: ShellProps) {
+export default function Shell({ children, spaces, currentSpace, currentPage, toc, themeStyles, pageTheme, appIconPath }: ShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [readingProgress, setReadingProgress] = useState(0)
@@ -169,7 +172,9 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
             </button>
           )}
           <Link href="/" className="btn btn-ghost gap-2 text-lg font-bold normal-case px-2">
-            <span className="text-primary">📚</span>
+            {appIconPath && (
+              <Image src={appIconPath} alt="" width={24} height={24} className="w-6 h-6" />
+            )}
             <span className="hidden sm:inline">{config.title}</span>
           </Link>
 

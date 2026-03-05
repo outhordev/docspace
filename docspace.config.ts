@@ -12,15 +12,7 @@ const config = {
 
   /** Short description — used in HTML meta tags. */
   description: 'A file-driven documentation site for projects.',
-
-  /**
-   * Favicon URL.
-   * Can be a local path (relative to /public) or a full URL:
-   *   '/favicon.ico'
-   *   'https://example.com/my-icon.png'
-   */
-  favicon: '/favicon.svg',
-
+  
   /** Footer text — shown at the bottom of every page. */
   footerText: `docspace | ${new Date().getFullYear()}`,
 

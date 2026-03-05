@@ -6,6 +6,7 @@ import Shell from '@/components/layout/Shell'
 import DocPage from '@/components/docs/DocPage'
 import TableOfContents from '@/components/layout/TableOfContents'
 import ColorFeatureHydrator from '@/components/docs/ColorFeatureHydrator'
+import { getAppIconPath } from '@/lib/appicon'
 
 interface SpacePageProps {
   params: Promise<{ space: string }>
@@ -69,6 +70,7 @@ export default async function SpacePage({ params }: SpacePageProps) {
         toc={<TableOfContents headings={headings} />}
         themeStyles={effectiveThemeStyles}
         pageTheme={pageThemeOverride}
+        appIconPath={getAppIconPath()}
       >
         <div data-pagefind-meta={`space:${space.title}`} hidden />
         <div data-pagefind-meta={`theme:${effectiveTheme}`} hidden />
@@ -85,7 +87,7 @@ export default async function SpacePage({ params }: SpacePageProps) {
   }
 
   return (
-    <Shell spaces={manifest.spaces} currentSpace={space} themeStyles={themeStyles}>
+    <Shell spaces={manifest.spaces} currentSpace={space} themeStyles={themeStyles} appIconPath={getAppIconPath()}>
       <div className="text-center py-16">
         <h1 className="text-3xl font-bold mb-4">{space.title}</h1>
         {space.description && (

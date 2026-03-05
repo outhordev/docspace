@@ -6,6 +6,7 @@ import Shell from '@/components/layout/Shell'
 import DocPage from '@/components/docs/DocPage'
 import TableOfContents from '@/components/layout/TableOfContents'
 import ColorFeatureHydrator from '@/components/docs/ColorFeatureHydrator'
+import { getAppIconPath } from '@/lib/appicon'
 
 interface DocPageRouteProps {
   params: Promise<{ space: string; slug: string[] }>
@@ -70,6 +71,7 @@ export default async function DocPageRoute({ params }: DocPageRouteProps) {
         isDark: themeConfig.isDark,
       }}
       pageTheme={pageThemeOverride}
+      appIconPath={getAppIconPath()}
     >
       <div data-pagefind-meta={`space:${space.title}`} hidden />
       <div data-pagefind-meta={`theme:${effectiveTheme}`} hidden />
