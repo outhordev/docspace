@@ -87,11 +87,26 @@ function stripNumericPrefix(name: string): string {
 }
 
 /**
+ * Convert a filesystem name to a URL-safe slug.
+ * Strips numeric prefix (if configured), lowercases, replaces spaces
+ * and non-alphanumeric runs with hyphens, and trims leading/trailing hyphens.
+ */
+function slugifyName(name: string, keepNumericPrefix: boolean): string {
+  let s = keepNumericPrefix ? name : stripNumericPrefix(name)
+  return s
+    .toLowerCase()
+    .replace(/\s+/g, '-')          // spaces → hyphens
+    .replace(/[^a-z0-9\-]/g, '-')  // non-alphanumeric → hyphens
+    .replace(/-{2,}/g, '-')        // collapse multiple hyphens
+    .replace(/^-|-$/g, '')         // trim leading/trailing hyphens
+}
+
+/**
  * Build a Page object from a markdown file.
  */
 function buildPage(filePath: string, fileName: string): Page {
   const rawSlug = fileName.replace(/\.md$/, '')
-  const slug = config.numericPrefixInPageSlugs ? rawSlug : stripNumericPrefix(rawSlug)
+  const slug = slugifyName(rawSlug, config.numericPrefixInPageSlugs)
   const { data } = parseMarkdownFile(filePath)
 
   // Prefer frontmatter lastModified (set by CI), fall back to file mtime
@@ -184,7 +199,7 @@ export function buildManifest(): DocsManifest {
               const { data } = parseMarkdownFile(groupMetaPath)
               groupMeta = data
             }
-            const groupSlugPart = config.numericPrefixInPageSlugs ? file.name : stripNumericPrefix(file.name)
+            const groupSlugPart = slugifyName(file.name, config.numericPrefixInPageSlugs)
             const children = buildSidebarItems(subDir, slugPrefix ? `${slugPrefix}/${groupSlugPart}` : groupSlugPart)
             if (children.length > 0) {
               items.push({
@@ -225,7 +240,7 @@ export function buildManifest(): DocsManifest {
       const orderedPages = flattenTree(sidebarTree)
 
       const resolvedThemeConfig = getThemeConfig(theme)
-      const spaceSlug = config.numericPrefixInSpaceSlugs ? entry.name : stripNumericPrefix(entry.name)
+      const spaceSlug = slugifyName(entry.name, config.numericPrefixInSpaceSlugs)
 
       spaces.push({
         slug: spaceSlug,

@@ -39,7 +39,6 @@ Almost everything in these docs describes **optional** features. Here's what hap
 Nothing breaks. You get a working documentation site. 
 
 ## Stepping it up
-
 When you *want* more control, here's the general progression:
 
 ### Light Organization
