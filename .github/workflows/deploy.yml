@@ -2,7 +2,7 @@ name: Build & Deploy Wiki
 
 on:
   push:
-    branches: [stable]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
