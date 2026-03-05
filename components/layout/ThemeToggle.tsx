@@ -18,18 +18,28 @@ interface ThemeToggleProps {
 }
 
 export function useThemeOverride(): [ThemeOverride, (v: ThemeOverride) => void] {
-  const [override, setOverride] = useState<ThemeOverride>('custom')
+  // Read the initial value from the html attribute set by the blocking script
+  // in layout.tsx — this is available synchronously on first render, preventing
+  // a flash of the wrong theme.
+  const [override, setOverride] = useState<ThemeOverride>(() => {
+    if (typeof document !== 'undefined') {
+      const attr = document.documentElement.getAttribute('data-theme-override') as ThemeOverride | null
+      if (attr && ['custom', 'dark', 'light'].includes(attr)) {
+        return attr
+      }
+    }
+    return 'custom'
+  })
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as ThemeOverride | null
-    if (stored && ['custom', 'dark', 'light'].includes(stored)) {
-      setOverride(stored)
-    }
-  }, [])
+    // Keep the html attribute in sync for future navigations
+    document.documentElement.setAttribute('data-theme-override', override)
+  }, [override])
 
   const set = (v: ThemeOverride) => {
     setOverride(v)
     localStorage.setItem(STORAGE_KEY, v)
+    document.documentElement.setAttribute('data-theme-override', v)
   }
 
   return [override, set]

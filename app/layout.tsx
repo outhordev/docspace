@@ -29,6 +29,17 @@ export default function RootLayout({
       className={`${inter.variable} ${imFellEnglish.variable} ${jetbrainsMono.variable} ${lora.variable} ${bitter.variable} ${spaceGrotesk.variable}`}
     >
       <body className={`${inter.className} antialiased`}>
+        {/* Blocking script: read theme preference before first paint to prevent flash */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            try {
+              var t = localStorage.getItem('docspace-theme-override');
+              if (t && (t === 'dark' || t === 'light' || t === 'custom')) {
+                document.documentElement.setAttribute('data-theme-override', t);
+              }
+            } catch(e) {}
+          })();
+        `}} />
         {children}
       </body>
     </html>
