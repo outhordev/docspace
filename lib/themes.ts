@@ -185,6 +185,9 @@ export function resolveTheme(themeValue: string | undefined, folderName: string,
     artstyle: 'canvas', art: 'canvas', visual: 'canvas',
     gamedesign: 'scroll', design: 'scroll', mechanics: 'scroll',
     devlog: 'dispatch', production: 'dispatch', pipeline: 'dispatch',
+    cyber: 'cyberpunk', neon: 'cyberpunk', hacking: 'cyberpunk', punk: 'cyberpunk',
+    meadow: 'meadow', cozy: 'meadow', cute: 'meadow', garden: 'meadow', nature: 'meadow',
+    aurora: 'aurora', northern: 'aurora', sky: 'aurora', lights: 'aurora', space: 'deepspace',
   }
 
   if (KEYWORD_MAP[normalized] && themes[KEYWORD_MAP[normalized]]) {
@@ -210,6 +213,10 @@ export function getDefaultIcon(themeName: string): string {
     canvas: 'palette',
     scroll: 'book-open',
     dispatch: 'newspaper',
+    deepspace: 'rocket',
+    cyberpunk: 'zap',
+    meadow: 'flower-2',
+    aurora: 'sparkles',
     dark: 'moon',
     light: 'sun',
   }

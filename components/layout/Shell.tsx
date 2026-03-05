@@ -1,6 +1,6 @@
 'use client'
 
-import {ReactNode, useCallback, useEffect, useState} from 'react'
+import {ReactNode, useCallback, useEffect, useRef, useState} from 'react'
 import {ArrowUp, ChevronRight, Menu, X} from 'lucide-react'
 import Sidebar from './Sidebar'
 import SpaceSwitcher from './SpaceSwitcher'
@@ -90,6 +90,37 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
     return () => document.removeEventListener('click', handleClick)
   }, [])
 
+  // Persist custom theme background HTML in a DOM node outside React's tree
+  // so CSS animations don't reset on page navigation within the same space.
+  const bgThemeRef = useRef<string | null>(null)
+  useEffect(() => {
+    const containerId = 'theme-bg-container'
+    const html = (isCustom && themeStyles?.customHTML) ? themeStyles.customHTML : ''
+    const themeKey = isCustom ? (currentSpace?.theme || '') : ''
+
+    // Only re-create the background if the theme actually changed
+    if (bgThemeRef.current === themeKey) return
+    bgThemeRef.current = themeKey
+
+    // Remove old background
+    const existing = document.getElementById(containerId)
+    if (existing) existing.remove()
+
+    // Inject new background if needed
+    if (html) {
+      const el = document.createElement('div')
+      el.id = containerId
+      el.innerHTML = html
+      document.body.appendChild(el)
+    }
+
+    return () => {
+      const el = document.getElementById(containerId)
+      if (el) el.remove()
+      bgThemeRef.current = null
+    }
+  }, [isCustom, currentSpace?.theme, themeStyles?.customHTML])
+
   // Only apply fancy styles when in custom theme mode
   const rootStyle: React.CSSProperties = {}
   if (isCustom) {
@@ -113,12 +144,9 @@ export default function Shell({ children, spaces, currentSpace, currentPage, toc
       className="min-h-screen bg-base-100 text-base-content flex flex-col"
       style={rootStyle}
     >
-      {/* Custom theme CSS + HTML injection */}
+      {/* Custom theme CSS injection (HTML is managed via useEffect for animation persistence) */}
       {isCustom && themeStyles?.customCSS && (
         <style dangerouslySetInnerHTML={{ __html: themeStyles.customCSS }} />
-      )}
-      {isCustom && themeStyles?.customHTML && (
-        <div dangerouslySetInnerHTML={{ __html: themeStyles.customHTML }} />
       )}
 
       {/* Reading progress bar */}
