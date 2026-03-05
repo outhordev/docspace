@@ -9,7 +9,7 @@ import SettingsModal, { useContentWidth } from './SettingsModal'
 import { useThemeOverride } from './ThemeToggle'
 import type {Page, Space} from '@/lib/docs-walker'
 import Link from 'next/link'
-import config from '@/axiom.config'
+import config from '@/docspace.config'
 
 interface ThemeStyles {
   headingFont?: string

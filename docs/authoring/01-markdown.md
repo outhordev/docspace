@@ -6,7 +6,7 @@ description: Supported syntax, formatting, and frontmatter.
 
 ## Supported Syntax
 
-Axiom uses **GitHub Flavored Markdown** (GFM) via `remark-gfm`. All standard Markdown works out of the box, plus tables, strikethrough, task lists, and autolinks.
+docspace uses **GitHub Flavored Markdown** (GFM) via `remark-gfm`. All standard Markdown works out of the box, plus tables, strikethrough, task lists, and autolinks.
 
 ## Headings
 

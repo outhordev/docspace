@@ -12,7 +12,7 @@ For example, the file structure shown below visualizes the sidebar in the curren
 docs/
   getting-started/
     _meta.md
-    01-what-is-axiom.md
+    01-what-is-docspace.md
     02-installation.md
     03-spaces-and-pages.md
     04-navigation.md

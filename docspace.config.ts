@@ -1,14 +1,14 @@
 /**
- * ─── axiom Site Configuration ─────────────────────────────────────────────
+ * ─── docspace Site Configuration ─────────────────────────────────────────────
  *
- * Edit this file to customize your axioms site.
+ * Edit this file to customize your docspaces site.
  * All fields have sensible defaults — change only what you need.
  */
 
 const config = {
 
   /** Site title — shown in the navbar, browser tab, and homepage hero. */
-  title: 'Axiom Docs',
+  title: 'docspace',
 
   /** Short description — used in HTML meta tags. */
   description: 'A file-driven documentation site for projects.',
@@ -22,7 +22,7 @@ const config = {
   favicon: '/favicon.svg',
 
   /** Footer text — shown at the bottom of every page. */
-  footerText: `Axiom Docs`,
+  footerText: `docspace | ${new Date().getFullYear()}`,
 
   /**
    * Home page theme.

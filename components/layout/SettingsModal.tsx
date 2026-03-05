@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Settings, Moon, Sun, Sparkles, Type, Monitor } from 'lucide-react'
 import { type ThemeOverride, useThemeOverride } from './ThemeToggle'
-import config from '@/axiom.config'
+import config from '@/docspace.config'
 
 const THEME_OPTIONS: { value: ThemeOverride; label: string; icon: React.ReactNode; description: string }[] = [
   { value: 'custom', label: 'Space Theme', icon: <Sparkles size={16} />, description: 'Rich per-space themes with custom colors and styles' },
@@ -18,7 +19,7 @@ const WIDTH_OPTIONS = (config.contentWidthOptions || [
   { value: '100ch', label: 'Extra Wide', description: 'Maximum reading area' },
 ]) as { value: string; label: string; description: string }[]
 
-const WIDTH_STORAGE_KEY = 'axiom-content-width'
+const WIDTH_STORAGE_KEY = 'docspace-content-width'
 
 export function useContentWidth(): [string, (v: string) => void] {
   const defaultWidth = (config.contentWidthOptions?.[0]?.value) || '65ch'
@@ -47,11 +48,19 @@ interface SettingsModalProps {
 export default function SettingsModal({ onThemeChange, onWidthChange }: SettingsModalProps) {
   const [themeOverride, setThemeOverride] = useThemeOverride()
   const [contentWidth, setContentWidth] = useContentWidth()
+  const [isOpen, setIsOpen] = useState(false)
 
-  const openModal = () => {
-    const modal = document.getElementById('settings-modal') as HTMLDialogElement | null
-    if (modal) modal.showModal()
-  }
+  const openModal = () => setIsOpen(true)
+  const closeModal = () => setIsOpen(false)
+
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeModal()
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [isOpen])
 
   const handleThemeSelect = (value: ThemeOverride) => {
     setThemeOverride(value)
@@ -73,11 +82,10 @@ export default function SettingsModal({ onThemeChange, onWidthChange }: Settings
         <Settings size={16} className="text-base-content/50" />
       </button>
 
-      <dialog id="settings-modal" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box max-w-md">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button>
-          </form>
+      {isOpen && createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50" onClick={(e) => { if (e.target === e.currentTarget) closeModal() }}>
+          <div className="modal-box max-w-md relative" onClick={(e) => e.stopPropagation()}>
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3" onClick={closeModal}>✕</button>
 
           <h3 className="text-lg font-bold mb-1">Settings</h3>
           <p className="text-sm text-base-content/50 mb-6">Customize your reading experience.</p>
@@ -149,10 +157,8 @@ export default function SettingsModal({ onThemeChange, onWidthChange }: Settings
           </div>
         </div>
 
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
+        </div>
+      , document.body)}
     </>
   )
 }

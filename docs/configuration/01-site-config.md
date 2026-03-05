@@ -1,19 +1,19 @@
 ---
 title: Site Config
 order: 1
-description: The axiom.config.ts file and all available options.
+description: The docspace.config.ts file and all available options.
 ---
 
 ## Config File
 
-All site-wide settings live in `axiom.config.ts` at the project root:
+All site-wide settings live in `docspace.config.ts` at the project root:
 
 ```typescript
 const config = {
-  title: 'Axiom Docs',
+  title: 'docspace Docs',
   description: 'A file-driven documentation site for projects.',
   favicon: '/favicon.svg',
-  footerText: 'Axiom Docs',
+  footerText: 'docspace Docs',
   homeTheme: 'deepspace',
   homeGradient: 'linear-gradient(135deg, #0B0D17 0%, #1A1040 30%, #0D1B2A 60%, #0B0D17 100%)',
   singleSpaceRedirect: true,
@@ -34,10 +34,10 @@ export default config
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `title` | `string` | `'Axiom Docs'` | Site name — navbar, browser tab, and landing hero |
+| `title` | `string` | `'docspace Docs'` | Site name — navbar, browser tab, and landing hero |
 | `description` | `string` | `'A file-driven...'` | HTML meta description |
 | `favicon` | `string` | `'/favicon.svg'` | Path relative to `/public` |
-| `footerText` | `string` | `'Axiom Docs'` | Text shown in the footer on every page |
+| `footerText` | `string` | `'docspace Docs'` | Text shown in the footer on every page |
 | `homeTheme` | `string` | `'deepspace'` | Theme applied to the landing page |
 | `homeGradient` | `string` | CSS gradient | Background gradient for the landing page; `''` to disable |
 | `singleSpaceRedirect` | `boolean` | `true` | Skip the landing page when only one space exists |
@@ -71,7 +71,7 @@ When `singleSpaceRedirect` is `true` and there is only one space in `docs/`, the
 
 ## URL Slugs
 
-By default, Axiom strips numeric prefixes (like `01-`, `02-`) from URLs. This keeps URLs clean while still letting you use prefixes to control sort order in the file system.
+By default, docspace strips numeric prefixes (like `01-`, `02-`) from URLs. This keeps URLs clean while still letting you use prefixes to control sort order in the file system.
 
 | File / Folder | Default slug | With prefix enabled |
 |---|---|---|

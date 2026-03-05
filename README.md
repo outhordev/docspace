@@ -1,4 +1,4 @@
-# 📚 axiom Wiki
+# 📚 docspace Wiki
 
 A zero-maintenance, file-driven documentation site. No CMS, no config — just folders, Markdown, and theme JSON files.
 

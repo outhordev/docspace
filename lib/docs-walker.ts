@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { ThemeName, resolveTheme, getDefaultIcon, getThemeConfig } from './themes'
-import config from '@/axiom.config'
+import config from '@/docspace.config'
 
 export interface Page {
   slug: string

@@ -10,7 +10,7 @@ Visiting `/` shows a landing page listing every space as a card. Each card displ
 
 ### Single-Space Redirect
 
-When you only have **one** space, the landing page is redundant. Set `singleSpaceRedirect: true` in `axiom.config.ts` and `/` will redirect straight into that space.
+When you only have **one** space, the landing page is redundant. Set `singleSpaceRedirect: true` in `docspace.config.ts` and `/` will redirect straight into that space.
 
 ```typescript
 singleSpaceRedirect: true,
@@ -36,7 +36,7 @@ Click the ⚙️ icon in the navbar to open the settings modal:
 
 **Appearance** — choose between the space's custom theme, universal dark mode, or universal light mode. The preference is saved in the reader's browser.
 
-**Content Width** — choose how wide the text column should be. The available presets are defined in `axiom.config.ts` under `contentWidthOptions`:
+**Content Width** — choose how wide the text column should be. The available presets are defined in `docspace.config.ts` under `contentWidthOptions`:
 
 ```typescript
 contentWidthOptions: [

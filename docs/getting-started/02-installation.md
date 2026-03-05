@@ -11,7 +11,7 @@ You need **Node.js 18+** and a package manager (`npm`, `yarn`, or `pnpm`).
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-org/axiom-docs.git my-docs
+git clone https://github.com/your-org/docspace-docs.git my-docs
 cd my-docs
 npm install
 npm run dev
@@ -23,7 +23,7 @@ Open [http://localhost:3000](http://localhost:3000). You should see the landing 
 
 | Path | Purpose |
 |---|---|
-| `axiom.config.ts` | Site-wide settings — title, theme, footer, width options |
+| `docspace.config.ts` | Site-wide settings — title, theme, footer, width options |
 | `docs/` | All of your documentation content |
 | `themes/` | Custom theme JSON files |
 | `public/` | Static assets (favicon, images) |
@@ -59,7 +59,7 @@ description: Start here.
 
 ## Hello, World
 
-Your first Axiom page is live. Edit this file and the dev server will refresh.
+Your first docspace page is live. Edit this file and the dev server will refresh.
 ```
 
 ## Production Build
@@ -71,4 +71,4 @@ npm run build
 This runs `next build` followed by `npx pagefind --site out`, producing a fully static `out/` directory with pre-rendered HTML, bundled assets, and a search index.
 
 > [!NOTE]
-> Axiom uses `output: 'export'` in the Next.js config. Everything is pre-rendered — no server process needed in production.
+> docspace uses `output: 'export'` in the Next.js config. Everything is pre-rendered — no server process needed in production.

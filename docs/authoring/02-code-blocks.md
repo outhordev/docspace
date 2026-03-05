@@ -10,7 +10,7 @@ Wrap code in triple backticks with a language identifier:
 
 ````markdown
 ```typescript
-const greeting = 'Hello, Axiom!'
+const greeting = 'Hello, docspace!'
 console.log(greeting)
 ```
 ````
@@ -41,7 +41,7 @@ This renders a styled block with **Shiki syntax highlighting**, a **language lab
 | Markdown | `markdown` |
 | Plain text | `text` |
 
-If you omit the language, Axiom falls back to plain `text`.
+If you omit the language, docspace falls back to plain `text`.
 
 ## Examples
 

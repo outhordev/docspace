@@ -17,7 +17,7 @@ Callouts are blockquotes with a special marker on the first line. They render wi
 
 ## Syntax
 
-Axiom supports two callout formats.
+docspace supports two callout formats.
 
 ### GitHub-Style (Recommended)
 

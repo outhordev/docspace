@@ -10,7 +10,7 @@ Every space can have its own visual identity — colors, fonts, code highlightin
 
 ## Built-In Themes
 
-Axiom ships with two base themes and six custom themes:
+docspace ships with two base themes and six custom themes:
 
 | Theme | Mode | Character |
 |---|---|---|
@@ -57,7 +57,7 @@ Create a JSON file in `themes/` — for example `themes/midnight.json`:
 }
 ```
 
-No registration step needed — Axiom discovers new theme files at build time.
+No registration step needed — docspace discovers new theme files at build time.
 
 ### Field Reference
 
@@ -91,7 +91,7 @@ The `colors` object maps directly to **DaisyUI color tokens**:
 
 ### Shiki Code Themes
 
-The `shikiTheme` field sets the primary code-highlighting palette. Axiom uses **dual-theme** highlighting, so code blocks always look correct in both dark and light modes — even when the reader overrides the theme via the settings modal.
+The `shikiTheme` field sets the primary code-highlighting palette. docspace uses **dual-theme** highlighting, so code blocks always look correct in both dark and light modes — even when the reader overrides the theme via the settings modal.
 
 Some popular choices:
 
@@ -121,4 +121,4 @@ theme: midnight
 - *(omit)* → auto-assigned by folder-name keywords or round-robin
 
 > [!WARNING]
-> `customCSS` and `customHTML` are injected as raw strings. Use unique class prefixes (e.g. `midnight-`, `deepspace-`) to avoid collisions with Axiom's core styles.
+> `customCSS` and `customHTML` are injected as raw strings. Use unique class prefixes (e.g. `midnight-`, `deepspace-`) to avoid collisions with docspace's core styles.

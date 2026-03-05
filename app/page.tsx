@@ -4,7 +4,8 @@ import { FolderOpen, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import DynamicIcon from '@/components/layout/DynamicIcon'
-import config from '@/axiom.config'
+import HomeNavbar from '@/components/layout/HomeNavbar'
+import config from '@/docspace.config'
 
 
 export default function HomePage() {
@@ -37,20 +38,8 @@ export default function HomePage() {
         <div dangerouslySetInnerHTML={{ __html: homeTheme.customHTML }} />
       )}
 
-      {/* Navbar */}
-      <header className="navbar bg-black/20 border-b border-white/5 sticky top-0 z-50 backdrop-blur-md px-4">
-        <div className="navbar-start">
-          <a href="/" className="btn btn-ghost gap-2 text-lg font-bold normal-case px-2">
-            <span className="text-primary">📚</span>
-            <span className="drop-shadow-lg">{config.title}</span>
-          </a>
-        </div>
-        <div className="navbar-end gap-1">
-          <div className="text-xs text-base-content/40">
-            <kbd className="kbd kbd-xs">Ctrl+K</kbd> search
-          </div>
-        </div>
-      </header>
+      {/* Navbar — same as space pages */}
+      <HomeNavbar spaces={manifest.spaces} />
 
       {/* Content */}
       <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 page-enter flex-1">

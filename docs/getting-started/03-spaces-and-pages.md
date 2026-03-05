@@ -22,7 +22,7 @@ description: Lore, factions, and cosmology.
 ---
 ```
 
-All fields are optional. Without `_meta.md`, Axiom derives a title from the folder name and auto-assigns a theme.
+All fields are optional. Without `_meta.md`, docspace derives a title from the folder name and auto-assigns a theme.
 
 | Field | Type | Description |
 |---|---|---|
@@ -56,11 +56,11 @@ The `icon` field accepts any name from the **Lucide** icon library — over 1,50
 Browse the full set at [lucide.dev/icons](https://lucide.dev/icons).
 
 > [!TIP]
-> If an icon name isn't recognised, Axiom falls back to a generic file icon. No error — just double-check the spelling at [lucide.dev/icons](https://lucide.dev/icons).
+> If an icon name isn't recognised, docspace falls back to a generic file icon. No error — just double-check the spelling at [lucide.dev/icons](https://lucide.dev/icons).
 
 ### Auto-Theme Assignment
 
-If you omit `theme`, Axiom picks one based on folder-name keywords:
+If you omit `theme`, docspace picks one based on folder-name keywords:
 
 | Keywords | Theme |
 |---|---|

@@ -1,7 +1,7 @@
 ---
 title: Deployment
 order: 3
-description: Building and deploying your Axiom site.
+description: Building and deploying your docspace site.
 ---
 
 ## Build
@@ -19,7 +19,7 @@ This runs `next build` followed by `npx pagefind --site out`. The result is a se
 
 ## Hosting
 
-Axiom outputs **pure static files**. Any hosting provider that can serve HTML works.
+docspace outputs **pure static files**. Any hosting provider that can serve HTML works.
 
 ### GitHub Pages
 

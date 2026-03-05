@@ -1,12 +1,12 @@
 ---
-title: What Is Axiom
+title: What Is docspace
 order: 1
-description: A quick overview of what Axiom does and why it exists.
+description: A quick overview of what docspace does and why it exists.
 ---
 
 ## The Idea
 
-Axiom is a **file-driven documentation site** built on Next.js. Drop Markdown files into a `docs/` folder, and Axiom turns them into a themed, searchable, statically-exported website — no database, no CMS, no server at runtime.
+docspace is a **file-driven documentation site** built on Next.js. Drop Markdown files into a `docs/` folder, and docspace turns them into a themed, searchable, statically-exported website — no database, no CMS, no server at runtime.
 
 It works for any project that needs well-organized, multi-section documentation — engineering teams, open-source projects, internal wikis, or personal knowledge bases.
 
@@ -17,7 +17,7 @@ It works for any project that needs well-organized, multi-section documentation 
 | **Space** | A top-level folder inside `docs/`. Each space becomes its own section with a unique theme, sidebar, and URL namespace. |
 | **Page** | A Markdown file inside a space. Sorted by numeric prefix or frontmatter `order`. |
 | **Theme** | A JSON file in `themes/` that controls colors, fonts, code highlighting, and more — assigned per-space. |
-| **Config** | A single `axiom.config.ts` at the project root that controls site-wide behavior. |
+| **Config** | A single `docspace.config.ts` at the project root that controls site-wide behavior. |
 
 ## Directory → Site
 
@@ -32,7 +32,7 @@ docs/
     01-settings.md
 ```
 
-At build time, Axiom walks this tree, reads every file's frontmatter, and generates the full site — sidebars, search index, and all.
+At build time, docspace walks this tree, reads every file's frontmatter, and generates the full site — sidebars, search index, and all.
 
 ## What You Get
 
